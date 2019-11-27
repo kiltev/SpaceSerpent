@@ -77,7 +77,6 @@ public class Paddle : MonoBehaviour
         {
             move = 0;
         }
-//        transform.Translate(move * Vector2.up);
         playerPaddle.velocity = move * Vector2.up;
     }
 }

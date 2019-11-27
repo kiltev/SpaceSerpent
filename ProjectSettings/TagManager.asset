@@ -8,6 +8,8 @@ TagManager:
   - Snake
   - Wall
   - Body
+  - TBWall
+  - SnakeBody
   layers:
   - Default
   - TransparentFX
