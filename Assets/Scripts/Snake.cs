@@ -22,6 +22,7 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _dis = 0.5f;
         minDistance = 1f;
         _increaseSpeedInterval = 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
@@ -46,7 +47,7 @@ public class Snake : MonoBehaviour
 
         if (Time.time > _increaseSpeedInterval)
         {
-            speed += 20f;
+            speed += 50f;
             Vector2 normVelocity = _snakeHead.velocity.normalized;
             _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
             _increaseSpeedInterval += 2f;
@@ -57,17 +58,18 @@ public class Snake : MonoBehaviour
         {
             _cur = bodyParts[i];
             _prev = bodyParts[i - 1];
-
+            _cur.rotation = _prev.rotation;
             _dis = Vector2.Distance(_prev.position, _cur.position);
             Vector2 newPos = _prev.position;
-            newPos.y = bodyParts[0].position.y;
+//            Debug.Log("euler z: " + _cur.eulerAngles.z);
+//            newPos.y = bodyParts[i - 1].position.y;
 //            float T = Time.deltaTime * _dis / minDistance * speed;
 //            if (T > 0.5f)
 //            {
 //                T = 0.5f;
 //            }
-
-            _cur.position = Vector3.Slerp(_cur.position, newPos, 0.2f);
+            _cur.position = Vector3.Lerp(_cur.position, newPos, 0.3f);
+//            _cur.position = PositionCalc(_prev, _prev.eulerAngles.z);
         }
     }
     
@@ -79,7 +81,7 @@ public class Snake : MonoBehaviour
 //            Debug.Log("speed: " + initialSpeed);
             Vector2 vel;
             vel.x = _snakeHead.velocity.x;
-            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 5);
+            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 3);
             _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
             AddBodyPart();
         }
@@ -116,13 +118,45 @@ public class Snake : MonoBehaviour
     private void AddBodyPart()
     {
 //        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody")).transform;
+        float angle = bodyParts[_bodySize].eulerAngles.z;
         Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody"), 
-            bodyParts[_bodySize].position, 
+            bodyParts[_bodySize].position,
             bodyParts[_bodySize].rotation).transform;
-        newBodyPart.SetParent(transform);
+//        newBodyPart.SetParent(transform);
         bodyParts.Add(newBodyPart);
         _bodySize += 1;
     }
+
+//    private Vector2 PositionCalc(Transform bodyPart, float angle)
+//  {
+//        Debug.Log("Angle: " + angle);
+//      Vector2 retVal = new Vector2(0, 0);
+//      Vector2 pos = bodyPart.position;
+//      if (angle > 0 && angle <= 90)
+//      {
+//          retVal.x = pos.x - (Mathf.Sin(angle) * _dis);
+//          retVal.y = pos.y - (Mathf.Cos(angle) * _dis); 
+//      }
+//
+//      if (angle > 90 && angle <= 180)
+//      {
+//          retVal.x = pos.x - (Mathf.Cos(angle - 90) * _dis);
+//          retVal.y = pos.y + (Mathf.Sin(angle - 90) * _dis); 
+//      }
+//
+//      if (angle > 180 && angle <= 270)
+//      {
+//          retVal.x = pos.x + (Mathf.Sin(angle - 180) * _dis);
+//          retVal.y = pos.y + (Mathf.Cos(angle - 180) * _dis); 
+//      }
+//      
+//      if (angle > 270 && angle <= 360)
+//      {
+//          retVal.x = pos.x + (Mathf.Cos(angle - 270) * _dis);
+//          retVal.y = pos.y - (Mathf.Sin(angle - 270) * _dis); 
+//      }
+//      return retVal;
+//  }
 }
 
 
