@@ -10,7 +10,6 @@ public class Paddle : MonoBehaviour
     private float _height;
 
     private string _input;
-    public int size;
     public bool isRight;
         // Start is called before the first frame update
     void Start()
@@ -20,9 +19,8 @@ public class Paddle : MonoBehaviour
         _height = transform.localScale.y;
     }
 
-    public void Init(bool isRightPaddle, int size)
+    public void Init(bool isRightPaddle)
     {
-        this.size = size;
         isRight = isRightPaddle;
         Vector2 pos = Vector2.zero;
         if (isRightPaddle)
@@ -79,18 +77,5 @@ public class Paddle : MonoBehaviour
             move = 0;
         }
         playerPaddle.velocity = move * Vector2.up;
-    }
-
-    void increasePaddle()
-    {
-        Vector2 topPos = new Vector2(transform.position.x, transform.position.y + (transform.localScale.y) / 2);
-        Vector2 bottomPos = new Vector2(transform.position.x, transform.position.y - (transform.localScale.y) / 2);
-        Paddle addedTop = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
-        Paddle addedBottom = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
-        addedTop.Init(this.isRight, 1);
-        addedBottom.Init(this.isRight, 1);
-        this.size += 2;
-        addedBottom.transform.SetParent(this.transform);
-        addedTop.transform.SetParent(this.transform);
     }
 }

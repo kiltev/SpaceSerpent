@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    public GameManager gameManager;
     public List<Transform> bodyParts = new List<Transform>();
     public float minDistance;
     public SnakeBody bodyPrefab;
@@ -17,11 +18,15 @@ public class Snake : MonoBehaviour
     private Vector2 _direction;
     private float _increaseSpeedInterval;
     private int _bodySize;
+
+    private bool rightPlayer = true;
+    private bool leftPlayer = false;
     //    private Vector2 _pos;
     
     // Start is called before the first frame update
     void Start()
     {
+//        gameManager = FindObjectOfType<GameManager>();
         minDistance = 1f;
         _increaseSpeedInterval = 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
@@ -84,36 +89,47 @@ public class Snake : MonoBehaviour
             AddBodyPart();
         }
 
-        if (coll.collider.CompareTag("Wall"))
+        if (coll.collider.CompareTag("RWall"))
         {
-            Time.timeScale = 0;
+            gameManager.PointHandler(rightPlayer);
         }
+        if (coll.collider.CompareTag("LWall"))
+        {
+            gameManager.PointHandler(leftPlayer);
+        }
+
+        //        if (coll.collider.CompareTag("Wall"))
+        //        {
+        //            Time.timeScale = 0;
+        //        }
     }
-    
-//    private void OnTriggerEnter2D (Collider2D other) {
-//        if(other.CompareTag("Paddle"))
-//        {
-//            float initialSpeed = _snakeHead.velocity.magnitude;
-//            Vector2 vel;
-//            vel.x = _snakeHead.velocity.x;
-//            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
-//            _snakeHead.velocity = vel.normalized * initialSpeed;
-////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
-////            node.transform.position = _nodes[-1].transform.position;
-//            Debug.Log("velocity: " + _snakeHead.velocity);
-//        }
 
-//        if (coll.collider.CompareTag("TBWall"))
-//        {
-//            
-//        }
-//        if (other.CompareTag("Wall"))
-//        {
-//            Time.timeScale = 0;
-//        }
-//    }
 
-    private void AddBodyPart()
+
+    //    private void OnTriggerEnter2D (Collider2D other) {
+        //        if(other.CompareTag("Paddle"))
+        //        {
+        //            float initialSpeed = _snakeHead.velocity.magnitude;
+        //            Vector2 vel;
+        //            vel.x = _snakeHead.velocity.x;
+        //            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
+        //            _snakeHead.velocity = vel.normalized * initialSpeed;
+        ////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
+        ////            node.transform.position = _nodes[-1].transform.position;
+        //            Debug.Log("velocity: " + _snakeHead.velocity);
+        //        }
+
+        //        if (coll.collider.CompareTag("TBWall"))
+        //        {
+        //            
+        //        }
+        //        if (other.CompareTag("Wall"))
+        //        {
+        //            Time.timeScale = 0;
+        //        }
+        //    }
+
+        private void AddBodyPart()
     {
 //        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody")).transform;
         Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody"), 
