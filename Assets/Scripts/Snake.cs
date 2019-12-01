@@ -1,101 +1,143 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public GameManager gameManager;
-    public List<Transform> bodyParts = new List<Transform>();
-    public float minDistance;
-    public SnakeBody bodyPrefab;
-    private float _dis;
-    private Transform _cur;
-    private Transform _prev;
-    private Rigidbody2D _snakeHead;
-    public float speed;
-    private float _radius;
-    private Vector2 _direction;
-    private float _increaseSpeedInterval;
     private int _bodySize;
+    private Transform _cur;
+    private Vector2 _direction;
+    private float _dis;
+    private float _increaseSpeedInterval;
+    private float _initialSpeed;
+    private bool _localLastFail;
+    private Transform _prev;
+    private float _radius;
+    private Rigidbody2D _snakeHead;
+    public List<Transform> bodyParts = new List<Transform>();
+    public SnakeBody bodyPrefab;
+    public GameManager gameManager;
+    private readonly bool leftPlayer = false;
+    public float minDistance;
 
-    private bool rightPlayer = true;
-    private bool leftPlayer = false;
-    //    private Vector2 _pos;
-    
+    private readonly bool rightPlayer = true;
+    public float speed;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-//        gameManager = FindObjectOfType<GameManager>();
+        _dis = 0.5f;
         minDistance = 1f;
         _increaseSpeedInterval = 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
-        _direction = Vector2.one.normalized;
+        _direction = new Vector2(Random.Range(-0.7f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
         _radius = transform.localScale.x / 2;
         speed = 500f;
+        _initialSpeed = 500f;
         _bodySize = 0;
-//        _pos = _snakeHead.transform.position;
         bodyParts.Add(transform);
         _snakeHead.velocity = _direction * Time.deltaTime * speed;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Vector2 velocity = _snakeHead.velocity;
-        float angle = Vector2.SignedAngle(velocity, Vector2.up);
-        _snakeHead.transform.rotation = Quaternion.Euler(0 ,0, -angle);
+        var velocity = _snakeHead.velocity;
+        var angle = Vector2.SignedAngle(velocity, Vector2.up);
+        _snakeHead.transform.rotation = Quaternion.Euler(0, 0, -angle);
 //        Debug.Log("angle: " + angle + ", rotation: " + _snakeHead.transform.rotation.z);
 
+        IncreaseSpeed();
+        MoveSnake();
+    }
 
 
-        if (Time.time > _increaseSpeedInterval)
+    private void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.collider.CompareTag("Paddle"))
         {
-            speed += 20f;
-            Vector2 normVelocity = _snakeHead.velocity.normalized;
-            _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
-            _increaseSpeedInterval += 2f;
+            var initialSpeed = _snakeHead.velocity.magnitude;
+//            Debug.Log("speed: " + initialSpeed);
+            Vector2 vel;
+            vel.x = _snakeHead.velocity.x;
+            vel.y = _snakeHead.velocity.y / 2 + coll.collider.attachedRigidbody.velocity.y / 3;
+            _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
+            AddBodyPart();
+            if (transform.position.x > 0)
+                _localLastFail = false;
+            else
+                _localLastFail = true;
         }
-        
-        
-        for (int i = 1; i < bodyParts.Count; i++)
+
+//        if (coll.collider.CompareTag("Wall"))
+            //            Time.timeScale = 0;
+//            ResetSnake();
+
+        if (coll.collider.CompareTag("RWall"))
+        {
+            gameManager.PointHandler(rightPlayer);
+            ResetSnake();
+        }
+
+        if (coll.collider.CompareTag("LWall"))
+        {
+            gameManager.PointHandler(leftPlayer);
+            ResetSnake();
+        }
+    }
+
+
+    private void ResetSnake()
+    {
+        speed = _initialSpeed;
+        for (var i = 0; i < bodyParts.Count; i++) bodyParts[i].position = Vector2.zero;
+
+        if (_localLastFail)
+//        if (GameManager.lastFail)
+        {
+            _direction = new Vector2(Random.Range(-0.7f, -0.1f), Random.Range(-0.7f, 0.7f)).normalized;
+            _localLastFail = false;
+//            GameManager.lastFail = false;
+        }
+        else
+        {
+            _direction = new Vector2(Random.Range(0.1f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
+            _localLastFail = true;
+//            GameManager.lastFail = true;
+        }
+
+        _snakeHead.velocity = _direction * Time.deltaTime * speed;
+    }
+
+
+    private void MoveSnake()
+    {
+        for (var i = 1; i < bodyParts.Count; i++)
         {
             _cur = bodyParts[i];
             _prev = bodyParts[i - 1];
-
+            _cur.rotation = _prev.rotation;
             _dis = Vector2.Distance(_prev.position, _cur.position);
             Vector2 newPos = _prev.position;
-            newPos.y = bodyParts[0].position.y;
+//            Debug.Log("euler z: " + _cur.eulerAngles.z);
+//            newPos.y = bodyParts[i - 1].position.y;
 //            float T = Time.deltaTime * _dis / minDistance * speed;
 //            if (T > 0.5f)
 //            {
 //                T = 0.5f;
 //            }
-
-            _cur.position = Vector3.Slerp(_cur.position, newPos, 0.2f);
+            _cur.position = Vector3.Lerp(_cur.position, newPos, 0.3f);
+//            _cur.position = PositionCalc(_prev, _prev.eulerAngles.z);
         }
     }
-    
-    
-    private void OnCollisionEnter2D (Collision2D coll) {
-        if(coll.collider.CompareTag("Paddle"))
-        {
-            float initialSpeed = _snakeHead.velocity.magnitude;
-//            Debug.Log("speed: " + initialSpeed);
-            Vector2 vel;
-            vel.x = _snakeHead.velocity.x;
-            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 5);
-            _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
-            AddBodyPart();
-        }
 
-        if (coll.collider.CompareTag("RWall"))
+    private void IncreaseSpeed()
+    {
+        if (Time.time > _increaseSpeedInterval)
         {
-            gameManager.PointHandler(rightPlayer);
-        }
-        if (coll.collider.CompareTag("LWall"))
-        {
-            gameManager.PointHandler(leftPlayer);
+            speed += 50f;
+            var normVelocity = _snakeHead.velocity.normalized;
+            _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
+            _increaseSpeedInterval += 2f;
         }
 
         //        if (coll.collider.CompareTag("Wall"))
@@ -105,40 +147,71 @@ public class Snake : MonoBehaviour
     }
 
 
-
     //    private void OnTriggerEnter2D (Collider2D other) {
-        //        if(other.CompareTag("Paddle"))
-        //        {
-        //            float initialSpeed = _snakeHead.velocity.magnitude;
-        //            Vector2 vel;
-        //            vel.x = _snakeHead.velocity.x;
-        //            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
-        //            _snakeHead.velocity = vel.normalized * initialSpeed;
-        ////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
-        ////            node.transform.position = _nodes[-1].transform.position;
-        //            Debug.Log("velocity: " + _snakeHead.velocity);
-        //        }
+    //        if(other.CompareTag("Paddle"))
+    //        {
+    //            float initialSpeed = _snakeHead.velocity.magnitude;
+    //            Vector2 vel;
+    //            vel.x = _snakeHead.velocity.x;
+    //            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
+    //            _snakeHead.velocity = vel.normalized * initialSpeed;
+    ////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
+    ////            node.transform.position = _nodes[-1].transform.position;
+    //            Debug.Log("velocity: " + _snakeHead.velocity);
+    //        }
 
-        //        if (coll.collider.CompareTag("TBWall"))
-        //        {
-        //            
-        //        }
-        //        if (other.CompareTag("Wall"))
-        //        {
-        //            Time.timeScale = 0;
-        //        }
-        //    }
+    //        if (coll.collider.CompareTag("TBWall"))
+    //        {
+    //            
+    //        }
+    //        if (other.CompareTag("Wall"))
+    //        {
+    //            Time.timeScale = 0;
+    //        }
+    //    }
 
-        private void AddBodyPart()
+    private void AddBodyPart()
     {
 //        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody")).transform;
-        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody"), 
-            bodyParts[_bodySize].position, 
+        var angle = bodyParts[_bodySize].eulerAngles.z;
+        var newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody"),
+            bodyParts[_bodySize].position,
             bodyParts[_bodySize].rotation).transform;
-        newBodyPart.SetParent(transform);
+//        newBodyPart.SetParent(transform);
         bodyParts.Add(newBodyPart);
         _bodySize += 1;
     }
+
+//    private Vector2 PositionCalc(Transform bodyPart, float angle)
+//  {
+//        Debug.Log("Angle: " + angle);
+//      Vector2 retVal = new Vector2(0, 0);
+//      Vector2 pos = bodyPart.position;
+//      if (angle > 0 && angle <= 90)
+//      {
+//          retVal.x = pos.x - (Mathf.Sin(angle) * _dis);
+//          retVal.y = pos.y - (Mathf.Cos(angle) * _dis); 
+//      }
+//
+//      if (angle > 90 && angle <= 180)
+//      {
+//          retVal.x = pos.x - (Mathf.Cos(angle - 90) * _dis);
+//          retVal.y = pos.y + (Mathf.Sin(angle - 90) * _dis); 
+//      }
+//
+//      if (angle > 180 && angle <= 270)
+//      {
+//          retVal.x = pos.x + (Mathf.Sin(angle - 180) * _dis);
+//          retVal.y = pos.y + (Mathf.Cos(angle - 180) * _dis); 
+//      }
+//      
+//      if (angle > 270 && angle <= 360)
+//      {
+//          retVal.x = pos.x + (Mathf.Cos(angle - 270) * _dis);
+//          retVal.y = pos.y - (Mathf.Sin(angle - 270) * _dis); 
+//      }
+//      return retVal;
+//  }
 }
 
 
