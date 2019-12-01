@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int leftPlayerState, rightPlayerState, minState = 2, maxState = 8;
     public Snake snake;
     public Paddle paddle;
 
@@ -16,11 +17,13 @@ public class GameManager : MonoBehaviour
         TopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         
         snake = Instantiate(Resources.Load<Snake>("Snake"));
-        Paddle rightPaddle =  Instantiate(Resources.Load<Paddle>("Paddle"));
-        Paddle leftPaddle =  Instantiate(Resources.Load<Paddle>("Paddle"));
+        leftPlayerState = minState;
+        rightPlayerState = minState;
+        Paddle rightPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
+        Paddle leftPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
 
-        rightPaddle.Init(true);
-        leftPaddle.Init(false);
+        rightPaddle.Init(true, rightPlayerState);
+        leftPaddle.Init(false, leftPlayerState);
     }
 
     // Update is called once per frame
@@ -28,4 +31,5 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
 }
