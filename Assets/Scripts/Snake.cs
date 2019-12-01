@@ -1,33 +1,35 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public List<Transform> bodyParts = new List<Transform>();
-    public float minDistance;
-    public SnakeBody bodyPrefab;
-    private float _dis;
-    private Transform _cur;
-    private Transform _prev;
-    private Rigidbody2D _snakeHead;
-    public float speed;
-    private float _radius;
-    private Vector2 _direction;
-    private float _increaseSpeedInterval;
     private int _bodySize;
+    private Transform _cur;
+    private Vector2 _direction;
+    private float _dis;
+    private float _increaseSpeedInterval;
     private float _initialSpeed;
     private bool _localLastFail;
+    private Transform _prev;
+    private float _radius;
+    private Rigidbody2D _snakeHead;
+    public List<Transform> bodyParts = new List<Transform>();
+    public SnakeBody bodyPrefab;
+    public GameManager gameManager;
+    private readonly bool leftPlayer = false;
+    public float minDistance;
+
+    private readonly bool rightPlayer = true;
+    public float speed;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _dis = 0.5f;
         minDistance = 1f;
         _increaseSpeedInterval = 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
-        _direction = new Vector2(UnityEngine.Random.Range(-0.7f, 0.7f), UnityEngine.Random.Range(-0.7f, 0.7f)).normalized;
+        _direction = new Vector2(Random.Range(-0.7f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
         _radius = transform.localScale.x / 2;
         speed = 500f;
         _initialSpeed = 500f;
@@ -37,42 +39,48 @@ public class Snake : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Vector2 velocity = _snakeHead.velocity;
-        float angle = Vector2.SignedAngle(velocity, Vector2.up);
-        _snakeHead.transform.rotation = Quaternion.Euler(0 ,0, -angle);
+        var velocity = _snakeHead.velocity;
+        var angle = Vector2.SignedAngle(velocity, Vector2.up);
+        _snakeHead.transform.rotation = Quaternion.Euler(0, 0, -angle);
 //        Debug.Log("angle: " + angle + ", rotation: " + _snakeHead.transform.rotation.z);
 
         IncreaseSpeed();
         MoveSnake();
     }
-    
-    
-    private void OnCollisionEnter2D (Collision2D coll)
+
+
+    private void OnCollisionEnter2D(Collision2D coll)
     {
-        if(coll.collider.CompareTag("Paddle"))
+        if (coll.collider.CompareTag("Paddle"))
         {
-            float initialSpeed = _snakeHead.velocity.magnitude;
+            var initialSpeed = _snakeHead.velocity.magnitude;
 //            Debug.Log("speed: " + initialSpeed);
             Vector2 vel;
             vel.x = _snakeHead.velocity.x;
-            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 3);
+            vel.y = _snakeHead.velocity.y / 2 + coll.collider.attachedRigidbody.velocity.y / 3;
             _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
             AddBodyPart();
             if (transform.position.x > 0)
-            {
                 _localLastFail = false;
-            }
             else
-            {
                 _localLastFail = true;
-            }
         }
 
-        if (coll.collider.CompareTag("Wall"))
+//        if (coll.collider.CompareTag("Wall"))
+            //            Time.timeScale = 0;
+//            ResetSnake();
+
+        if (coll.collider.CompareTag("RWall"))
         {
-//            Time.timeScale = 0;
+            gameManager.PointHandler(rightPlayer);
+            ResetSnake();
+        }
+
+        if (coll.collider.CompareTag("LWall"))
+        {
+            gameManager.PointHandler(leftPlayer);
             ResetSnake();
         }
     }
@@ -81,31 +89,29 @@ public class Snake : MonoBehaviour
     private void ResetSnake()
     {
         speed = _initialSpeed;
-        for (int i = 0; i < bodyParts.Count; i++)
-        {
-            bodyParts[i].position = Vector2.zero;
-        }
+        for (var i = 0; i < bodyParts.Count; i++) bodyParts[i].position = Vector2.zero;
 
         if (_localLastFail)
 //        if (GameManager.lastFail)
         {
-            _direction = new Vector2(UnityEngine.Random.Range(-0.7f, -0.1f), UnityEngine.Random.Range(-0.7f, 0.7f)).normalized;
+            _direction = new Vector2(Random.Range(-0.7f, -0.1f), Random.Range(-0.7f, 0.7f)).normalized;
             _localLastFail = false;
 //            GameManager.lastFail = false;
         }
         else
         {
-            _direction = new Vector2(UnityEngine.Random.Range(0.1f, 0.7f), UnityEngine.Random.Range(-0.7f, 0.7f)).normalized;
+            _direction = new Vector2(Random.Range(0.1f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
             _localLastFail = true;
 //            GameManager.lastFail = true;
         }
+
         _snakeHead.velocity = _direction * Time.deltaTime * speed;
     }
-        
+
 
     private void MoveSnake()
     {
-        for (int i = 1; i < bodyParts.Count; i++)
+        for (var i = 1; i < bodyParts.Count; i++)
         {
             _cur = bodyParts[i];
             _prev = bodyParts[i - 1];
@@ -129,40 +135,46 @@ public class Snake : MonoBehaviour
         if (Time.time > _increaseSpeedInterval)
         {
             speed += 50f;
-            Vector2 normVelocity = _snakeHead.velocity.normalized;
+            var normVelocity = _snakeHead.velocity.normalized;
             _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
             _increaseSpeedInterval += 2f;
         }
-    }
-    
-//    private void OnTriggerEnter2D (Collider2D other) {
-//        if(other.CompareTag("Paddle"))
-//        {
-//            float initialSpeed = _snakeHead.velocity.magnitude;
-//            Vector2 vel;
-//            vel.x = _snakeHead.velocity.x;
-//            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
-//            _snakeHead.velocity = vel.normalized * initialSpeed;
-////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
-////            node.transform.position = _nodes[-1].transform.position;
-//            Debug.Log("velocity: " + _snakeHead.velocity);
-//        }
 
-//        if (coll.collider.CompareTag("TBWall"))
-//        {
-//            
-//        }
-//        if (other.CompareTag("Wall"))
-//        {
-//            Time.timeScale = 0;
-//        }
-//    }
+        //        if (coll.collider.CompareTag("Wall"))
+        //        {
+        //            Time.timeScale = 0;
+        //        }
+    }
+
+
+    //    private void OnTriggerEnter2D (Collider2D other) {
+    //        if(other.CompareTag("Paddle"))
+    //        {
+    //            float initialSpeed = _snakeHead.velocity.magnitude;
+    //            Vector2 vel;
+    //            vel.x = _snakeHead.velocity.x;
+    //            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
+    //            _snakeHead.velocity = vel.normalized * initialSpeed;
+    ////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
+    ////            node.transform.position = _nodes[-1].transform.position;
+    //            Debug.Log("velocity: " + _snakeHead.velocity);
+    //        }
+
+    //        if (coll.collider.CompareTag("TBWall"))
+    //        {
+    //            
+    //        }
+    //        if (other.CompareTag("Wall"))
+    //        {
+    //            Time.timeScale = 0;
+    //        }
+    //    }
 
     private void AddBodyPart()
     {
 //        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody")).transform;
-        float angle = bodyParts[_bodySize].eulerAngles.z;
-        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody"), 
+        var angle = bodyParts[_bodySize].eulerAngles.z;
+        var newBodyPart = Instantiate(Resources.Load<SnakeBody>("SnakeBody"),
             bodyParts[_bodySize].position,
             bodyParts[_bodySize].rotation).transform;
 //        newBodyPart.SetParent(transform);
