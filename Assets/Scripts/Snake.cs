@@ -120,6 +120,15 @@ public class Snake : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Bonus"))
+        {
+            Debug.Log("You Hit The Bonus!");
+            other.gameObject.SetActive(false);
+        }
+    }
+
 //    private void AddBodyPart()
 //    {
 //        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("Body"), 
