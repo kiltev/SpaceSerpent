@@ -391,7 +391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftPlayerState: 0
   rightPlayerState: 0
-  maxState: 3
+  maxState: 4
   snake: {fileID: 7421038649334108917, guid: 28da001346645a44aad519000d37e901, type: 3}
 --- !u!4 &864704953
 Transform:
