@@ -17,8 +17,9 @@ public class Snake : MonoBehaviour
     private Vector2 _direction;
     private float _increaseSpeedInterval;
     private int _bodySize;
-    //    private Vector2 _pos;
-    
+    private float _initialSpeed;
+    private bool _localLastFail;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +27,11 @@ public class Snake : MonoBehaviour
         minDistance = 1f;
         _increaseSpeedInterval = 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
-        _direction = Vector2.one.normalized;
+        _direction = new Vector2(UnityEngine.Random.Range(-0.7f, 0.7f), UnityEngine.Random.Range(-0.7f, 0.7f)).normalized;
         _radius = transform.localScale.x / 2;
         speed = 500f;
+        _initialSpeed = 500f;
         _bodySize = 0;
-//        _pos = _snakeHead.transform.position;
         bodyParts.Add(transform);
         _snakeHead.velocity = _direction * Time.deltaTime * speed;
     }
@@ -43,17 +44,67 @@ public class Snake : MonoBehaviour
         _snakeHead.transform.rotation = Quaternion.Euler(0 ,0, -angle);
 //        Debug.Log("angle: " + angle + ", rotation: " + _snakeHead.transform.rotation.z);
 
-
-
-        if (Time.time > _increaseSpeedInterval)
+        IncreaseSpeed();
+        MoveSnake();
+    }
+    
+    
+    private void OnCollisionEnter2D (Collision2D coll)
+    {
+        if(coll.collider.CompareTag("Paddle"))
         {
-            speed += 50f;
-            Vector2 normVelocity = _snakeHead.velocity.normalized;
-            _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
-            _increaseSpeedInterval += 2f;
+            float initialSpeed = _snakeHead.velocity.magnitude;
+//            Debug.Log("speed: " + initialSpeed);
+            Vector2 vel;
+            vel.x = _snakeHead.velocity.x;
+            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 3);
+            _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
+            AddBodyPart();
+            if (transform.position.x > 0)
+            {
+                _localLastFail = false;
+            }
+            else
+            {
+                _localLastFail = true;
+            }
         }
+
+        if (coll.collider.CompareTag("Wall"))
+        {
+//            Time.timeScale = 0;
+            ResetSnake();
+        }
+    }
+
+
+    private void ResetSnake()
+    {
+        speed = _initialSpeed;
+        for (int i = 0; i < bodyParts.Count; i++)
+        {
+            bodyParts[i].position = Vector2.zero;
+        }
+
+        if (_localLastFail)
+//        if (GameManager.lastFail)
+        {
+            _direction = new Vector2(UnityEngine.Random.Range(-0.7f, -0.1f), UnityEngine.Random.Range(-0.7f, 0.7f)).normalized;
+            _localLastFail = false;
+//            GameManager.lastFail = false;
+        }
+        else
+        {
+            _direction = new Vector2(UnityEngine.Random.Range(0.1f, 0.7f), UnityEngine.Random.Range(-0.7f, 0.7f)).normalized;
+            _localLastFail = true;
+//            GameManager.lastFail = true;
+        }
+        _snakeHead.velocity = _direction * Time.deltaTime * speed;
+    }
         
-        
+
+    private void MoveSnake()
+    {
         for (int i = 1; i < bodyParts.Count; i++)
         {
             _cur = bodyParts[i];
@@ -72,23 +123,15 @@ public class Snake : MonoBehaviour
 //            _cur.position = PositionCalc(_prev, _prev.eulerAngles.z);
         }
     }
-    
-    
-    private void OnCollisionEnter2D (Collision2D coll) {
-        if(coll.collider.CompareTag("Paddle"))
-        {
-            float initialSpeed = _snakeHead.velocity.magnitude;
-//            Debug.Log("speed: " + initialSpeed);
-            Vector2 vel;
-            vel.x = _snakeHead.velocity.x;
-            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 3);
-            _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
-            AddBodyPart();
-        }
 
-        if (coll.collider.CompareTag("Wall"))
+    private void IncreaseSpeed()
+    {
+        if (Time.time > _increaseSpeedInterval)
         {
-            Time.timeScale = 0;
+            speed += 50f;
+            Vector2 normVelocity = _snakeHead.velocity.normalized;
+            _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
+            _increaseSpeedInterval += 2f;
         }
     }
     
