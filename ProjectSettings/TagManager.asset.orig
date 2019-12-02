@@ -7,11 +7,14 @@ TagManager:
   - Paddle
   - Snake
   - Body
-  - TBWall
+<<<<<<< HEAD
   - Bonus
+=======
+  - TBWall
   - SnakeBody
   - RWall
   - LWall
+>>>>>>> master
   layers:
   - Default
   - TransparentFX

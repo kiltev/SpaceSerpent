@@ -10,7 +10,6 @@ public class Paddle : MonoBehaviour
     private float _height;
 
     private string _input;
-
     public bool isRight;
         // Start is called before the first frame update
     void Start()
@@ -77,7 +76,6 @@ public class Paddle : MonoBehaviour
         {
             move = 0;
         }
-//        transform.Translate(move * Vector2.up);
         playerPaddle.velocity = move * Vector2.up;
     }
 }

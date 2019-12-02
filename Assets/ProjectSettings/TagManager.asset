@@ -6,12 +6,10 @@ TagManager:
   tags:
   - Paddle
   - Snake
+  - Wall
   - Body
   - TBWall
-  - Bonus
   - SnakeBody
-  - RWall
-  - LWall
   layers:
   - Default
   - TransparentFX

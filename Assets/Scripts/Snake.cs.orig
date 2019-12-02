@@ -263,7 +263,27 @@ public class Snake : MonoBehaviour
 //                _direction.y = -_direction.y;
 //            }
 //        }
+<<<<<<< HEAD
 //    }
+    
+    void OnCollisionEnter2D (Collision2D coll) {
+        if(coll.collider.CompareTag("Paddle"))
+        {
+            float initialSpeed = _snakeHead.velocity.magnitude;
+            Vector2 vel;
+            vel.x = _snakeHead.velocity.x;
+            vel.y = (_snakeHead.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 3);
+            _snakeHead.velocity = vel.normalized * initialSpeed;
+//            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
+//            node.transform.position = _nodes[-1].transform.position;
+        }
+
+        if (coll.collider.CompareTag("Wall"))
+        {
+            Time.timeScale = 0;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Bonus"))
@@ -272,3 +292,16 @@ public class Snake : MonoBehaviour
             other.gameObject.SetActive(false);
         }
     }
+
+//    private void AddBodyPart()
+//    {
+//        Transform newBodyPart = Instantiate(Resources.Load<SnakeBody>("Body"), 
+//                bodyParts[-1].position, 
+//                bodyParts[-1].rotation).transform;
+//        newBodyPart.SetParent(transform);
+//        bodyParts.Add(newBodyPart);
+//    }
+}
+=======
+//    }
+>>>>>>> master
