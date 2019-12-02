@@ -15,7 +15,10 @@ public class GameManager : MonoBehaviour
 
     private bool isRightPaddle = true;
     private bool isLeftPaddle = false;
+    Color colorStart = Color.red;
+    Color colorEnd = Color.green;
 
+    private float duration = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,15 +31,29 @@ public class GameManager : MonoBehaviour
 //        rightPlayerState = minState;
         rightPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
         leftPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
-
         rightPaddle.Init(isRightPaddle);
         leftPaddle.Init(isLeftPaddle);
+//        Color32 color = new Color32(0xFF, 0xFF, 0xFF, 0xFF);  White Color in Hex
+//        rightPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
+//        leftPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        float lerp = Mathf.PingPong(Time.time, duration) / duration;
+        rightPaddle.GetComponent<Renderer>().material.color = Color.Lerp(colorStart, colorEnd, lerp); // color right paddle
+        Renderer[] rightChildrenRenderer = rightPaddle.GetComponentsInChildren<Renderer>();
+        foreach (var r in rightChildrenRenderer)
+        {
+            r.material.color = Color.Lerp(colorStart, colorEnd, lerp); // color the children of right paddle the same colors
+        }
+        leftPaddle.GetComponent<Renderer>().material.color = Color.Lerp(colorEnd, colorStart, lerp);
+        Renderer[] leftChildrenRenderer = leftPaddle.GetComponentsInChildren<Renderer>();
+        foreach (var r in leftChildrenRenderer)
+        {
+            r.material.color = Color.Lerp(colorEnd, colorStart, lerp); // color the children of right paddle the same colors
+        }
     }
     public void IncreasePaddle(bool playerSide)
     {
@@ -52,10 +69,12 @@ public class GameManager : MonoBehaviour
             paddle = leftPaddle;
             state = leftPlayerState;
         }
-        Vector2 topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y * 0.75f + state * 0.5f));
-        Vector2 bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y * 0.75f + state * 0.5f));
+
+        Vector2 topPos, bottomPos;
         Paddle addedTop = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
         Paddle addedBottom = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
+        topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y * 0.5f + state * addedTop.transform.localScale.y));
+        bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y * 0.5f + state * addedBottom.transform.localScale.y));
         addedTop.Init(playerSide);
         addedBottom.Init(playerSide);
         addedBottom.transform.SetParent(paddle.transform);
