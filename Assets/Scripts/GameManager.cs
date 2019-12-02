@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         BottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
         TopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         
-        snake = Instantiate(Resources.Load<Snake>("Snake"));
+        snake = Instantiate(Resources.Load<Snake>("SnakeHead"));
         snake.GetComponent<Snake>().gameManager = this;
 //        leftPlayerState = minState;
 //        rightPlayerState = minState;
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         leftPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
         rightPaddle.Init(isRightPaddle);
         leftPaddle.Init(isLeftPaddle);
+        rightPaddle.transform.Rotate(0,0,180);
 //        Color32 color = new Color32(0xFF, 0xFF, 0xFF, 0xFF);  White Color in Hex
 //        rightPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
 //        leftPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
@@ -73,14 +74,20 @@ public class GameManager : MonoBehaviour
         Vector2 topPos, bottomPos;
         Paddle addedTop = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
         Paddle addedBottom = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
-        topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y * 0.5f + state * addedTop.transform.localScale.y));
-        bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y * 0.5f + state * addedBottom.transform.localScale.y));
+        topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y *2  + state * addedTop.transform.localScale.y));
+        bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y *2 + state * addedBottom.transform.localScale.y));
         addedTop.Init(playerSide);
         addedBottom.Init(playerSide);
-        addedBottom.transform.SetParent(paddle.transform);
-        addedTop.transform.SetParent(paddle.transform);
+//        paddle.height += addedTop.height * 2;
         addedTop.transform.position = topPos;
         addedBottom.transform.position = bottomPos;
+        if (paddle.isRight)
+        {
+            addedBottom.transform.Rotate(0, 0, 180);
+            addedTop.transform.Rotate(0, 0, 180);
+        }
+        addedBottom.transform.SetParent(paddle.transform);
+        addedTop.transform.SetParent(paddle.transform);
     }
 
     public void PointHandler(bool playerMiss)

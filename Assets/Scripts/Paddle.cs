@@ -5,10 +5,8 @@ using UnityEngine;
 public class Paddle : MonoBehaviour
 {
     public Rigidbody2D playerPaddle;
+    public float height;
     private float _speed;
-
-    private float _height;
-
     private string _input;
     public bool isRight;
         // Start is called before the first frame update
@@ -16,7 +14,7 @@ public class Paddle : MonoBehaviour
     {
         playerPaddle = GetComponent<Rigidbody2D>();
         _speed = 800f;
-        _height = transform.localScale.y;
+        height = transform.localScale.y;
     }
 
     public void Init(bool isRightPaddle)
@@ -68,11 +66,11 @@ public class Paddle : MonoBehaviour
             }
         }
 
-        if (transform.position.y < GameManager.BottomLeft.y + _height / 1.5f && move < 0f)
+        if (transform.position.y < GameManager.BottomLeft.y + (height / 2f) + 0.2f && move < 0f)
         {
             move = 0;
         }
-        if (transform.position.y > GameManager.TopRight.y - _height / 1.6f && move > 0f)
+        if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.2f && move > 0f)
         {
             move = 0;
         }
