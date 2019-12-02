@@ -18,9 +18,11 @@ public class Snake : MonoBehaviour
     public GameManager gameManager;
     private readonly bool leftPlayer = false;
     public float minDistance;
-
+    public int lastTarget=0;
     private readonly bool rightPlayer = true;
     public float speed;
+    private int rightPaddle;
+    private int leftPaddle;
 
     // Start is called before the first frame update
     private void Start()
@@ -29,7 +31,8 @@ public class Snake : MonoBehaviour
         minDistance = 1f;
         _increaseSpeedInterval = 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
-        _direction = new Vector2(Random.Range(-0.7f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
+        //        _direction = new Vector2(Random.Range(-0.7f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
+        _direction = RandomDirection().normalized;
         _radius = transform.localScale.x / 2;
         speed = 500f;
         _initialSpeed = 500f;
@@ -53,7 +56,7 @@ public class Snake : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.collider.CompareTag("Paddle"))
+        if (coll.collider.CompareTag("LPaddle") || coll.collider.CompareTag("RPaddle"))
         {
             var initialSpeed = _snakeHead.velocity.magnitude;
 //            Debug.Log("speed: " + initialSpeed);
@@ -66,10 +69,20 @@ public class Snake : MonoBehaviour
                 _localLastFail = false;
             else
                 _localLastFail = true;
+            if (coll.collider.tag == "RPaddle")
+            {
+                rightPaddle = 1;
+                lastTarget = rightPaddle;
+            }
+            else
+            {
+                leftPaddle = 2;
+                lastTarget = leftPaddle;
+            }
         }
 
 //        if (coll.collider.CompareTag("Wall"))
-            //            Time.timeScale = 0;
+        //            Time.timeScale = 0;
 //            ResetSnake();
 
         if (coll.collider.CompareTag("RWall"))
@@ -106,6 +119,7 @@ public class Snake : MonoBehaviour
         }
 
         _snakeHead.velocity = _direction * Time.deltaTime * speed;
+        lastTarget = 0;
     }
 
 
@@ -139,36 +153,9 @@ public class Snake : MonoBehaviour
             _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
             _increaseSpeedInterval += 2f;
         }
-
-        //        if (coll.collider.CompareTag("Wall"))
-        //        {
-        //            Time.timeScale = 0;
-        //        }
     }
 
 
-    //    private void OnTriggerEnter2D (Collider2D other) {
-    //        if(other.CompareTag("Paddle"))
-    //        {
-    //            float initialSpeed = _snakeHead.velocity.magnitude;
-    //            Vector2 vel;
-    //            vel.x = _snakeHead.velocity.x;
-    //            vel.y = (_snakeHead.velocity.y / 2) + (other.attachedRigidbody.velocity.y / 3);
-    //            _snakeHead.velocity = vel.normalized * initialSpeed;
-    ////            SnakeBody node = Instantiate(Resources.Load<SnakeBody>("Body"));
-    ////            node.transform.position = _nodes[-1].transform.position;
-    //            Debug.Log("velocity: " + _snakeHead.velocity);
-    //        }
-
-    //        if (coll.collider.CompareTag("TBWall"))
-    //        {
-    //            
-    //        }
-    //        if (other.CompareTag("Wall"))
-    //        {
-    //            Time.timeScale = 0;
-    //        }
-    //    }
 
     private void AddBodyPart()
     {
@@ -193,86 +180,17 @@ public class Snake : MonoBehaviour
         }
     }
 
+    private Vector2 RandomDirection()
+    {
+        float x = Random.Range(-1f, 1f);
+        float y = Random.Range(-1f, 1f);
+        while ((y / x) > 2f)
+        {
+            x = Random.Range(-1f, 1f);
+            y = Random.Range(-1f, 1f);
+        }
 
-    //    private Vector2 PositionCalc(Transform bodyPart, float angle)
-    //  {
-    //        Debug.Log("Angle: " + angle);
-    //      Vector2 retVal = new Vector2(0, 0);
-    //      Vector2 pos = bodyPart.position;
-    //      if (angle > 0 && angle <= 90)
-    //      {
-    //          retVal.x = pos.x - (Mathf.Sin(angle) * _dis);
-    //          retVal.y = pos.y - (Mathf.Cos(angle) * _dis); 
-    //      }
-    //
-    //      if (angle > 90 && angle <= 180)
-    //      {
-    //          retVal.x = pos.x - (Mathf.Cos(angle - 90) * _dis);
-    //          retVal.y = pos.y + (Mathf.Sin(angle - 90) * _dis); 
-    //      }
-    //
-    //      if (angle > 180 && angle <= 270)
-    //      {
-    //          retVal.x = pos.x + (Mathf.Sin(angle - 180) * _dis);
-    //          retVal.y = pos.y + (Mathf.Cos(angle - 180) * _dis); 
-    //      }
-    //      
-    //      if (angle > 270 && angle <= 360)
-    //      {
-    //          retVal.x = pos.x + (Mathf.Cos(angle - 270) * _dis);
-    //          retVal.y = pos.y - (Mathf.Sin(angle - 270) * _dis); 
-    //      }
-    //      return retVal;
-    //  }
+        return new Vector2(x, y);
+    }
+
 }
-
-
-// Bounce off top and bottom - was in update
-//        if (transform.position.y < GameManager.BottomLeft.y + _radius && _direction.y < 0)
-//        {
-//            _direction.y = -_direction.y;
-//        }
-//        if (transform.position.y > GameManager.TopRight.y - _radius && _direction.y > 0)
-//        {
-//            _direction.y = -_direction.y;
-//        }
-
-// Game over - was in update.
-//        if (transform.position.x < GameManager.BottomLeft.x + _radius)
-//        {
-//            Debug.Log("Right player wins!");
-//            Time.timeScale = 0;
-//        }
-//        if (transform.position.x > GameManager.TopRight.x - _radius)
-//        {
-//            Debug.Log("Left player wins!");
-//            Time.timeScale = 0;
-//        }
-
-//    Can probably be deleted.
-//    private void OnTriggerEnter2D(Collider2D other)
-//    {
-//        if (other.tag == "Paddle")
-//        {
-//            bool isRight = other.GetComponent<Paddle>().isRight;
-//            if (isRight && _direction.x > 0)
-//            {
-//                _direction.x = -_direction.x;
-//            }
-//            if (!isRight && _direction.x < 0)
-//            {
-//                _direction.x = -_direction.x;
-//            }
-//        }
-//        if (other.tag == "Wall")
-//        {
-//            if (transform.position.y < GameManager.BottomLeft.y + _radius && _direction.y < 0)
-//            {
-//                _direction.y = -_direction.y;
-//            }
-//            if (transform.position.y > GameManager.TopRight.y - _radius && _direction.y > 0)
-//            {
-//                _direction.y = -_direction.y;
-//            }
-//        }
-//    }

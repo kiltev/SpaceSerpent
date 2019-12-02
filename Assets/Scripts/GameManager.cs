@@ -15,10 +15,15 @@ public class GameManager : MonoBehaviour
 
     private bool isRightPaddle = true;
     private bool isLeftPaddle = false;
-    Color colorStart = Color.red;
-    Color colorEnd = Color.green;
+//    Color32 color = new Color32(0xFF, 0xFF, 0xFF, 0xFF);  //White Color in Hex
+    Color orangeStart = new Color32(255,121, 0, 100); //FF7900
+    Color orangeEnd = new Color32(255, 216, 0, 100);
+    Color pinkStart = new Color32(255, 0, 255, 100); //FF00FF
+    Color pinkEnd = new Color32(0, 155, 255, 100);
+    Color greenStart = new Color32(0, 255, 12, 100); //00FF0C
+    Color greenEnd = new Color32(0, 255, 12, 80);
 
-    private float duration = 1f;
+    private float duration = 0.8f;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +39,8 @@ public class GameManager : MonoBehaviour
         rightPaddle.Init(isRightPaddle);
         leftPaddle.Init(isLeftPaddle);
         rightPaddle.transform.Rotate(0,0,180);
-//        Color32 color = new Color32(0xFF, 0xFF, 0xFF, 0xFF);  White Color in Hex
+        leftPaddle.gameObject.tag = "LPaddle";
+        rightPaddle.gameObject.tag = "RPaddle";
 //        rightPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
 //        leftPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
     }
@@ -42,18 +48,47 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // manage colors for paddles :
+
         float lerp = Mathf.PingPong(Time.time, duration) / duration;
-        rightPaddle.GetComponent<Renderer>().material.color = Color.Lerp(colorStart, colorEnd, lerp); // color right paddle
+        rightPaddle.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color right paddle
         Renderer[] rightChildrenRenderer = rightPaddle.GetComponentsInChildren<Renderer>();
         foreach (var r in rightChildrenRenderer)
         {
-            r.material.color = Color.Lerp(colorStart, colorEnd, lerp); // color the children of right paddle the same colors
+            r.material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color the children of right paddle the same colors
         }
-        leftPaddle.GetComponent<Renderer>().material.color = Color.Lerp(colorEnd, colorStart, lerp);
+        leftPaddle.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp);
         Renderer[] leftChildrenRenderer = leftPaddle.GetComponentsInChildren<Renderer>();
         foreach (var r in leftChildrenRenderer)
         {
-            r.material.color = Color.Lerp(colorEnd, colorStart, lerp); // color the children of right paddle the same colors
+            r.material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color the children of right paddle the same colors
+        }
+
+        //manage snake colors:
+        if (snake.lastTarget == 1) //if snake hit the right paddle last
+        {
+            snake.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color like right paddle
+            foreach (var bodyPart in snake.bodyParts)
+            {
+                bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color the children of right paddle the same colors
+            }
+        }
+        else if(snake.lastTarget == 2)
+        {
+            snake.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp); //color like left paddle
+            foreach (var bodyPart in snake.bodyParts)
+            {
+                bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color the children of right paddle the same colors
+            }
+        }
+        else
+        {
+            snake.GetComponent<Renderer>().material.color = Color.Lerp(greenStart, greenEnd, lerp); //color like left paddle
+            foreach (var bodyPart in snake.bodyParts)
+            {
+                bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(greenStart, greenEnd, lerp); // color the children of right paddle the same colors
+            }
         }
     }
     public void IncreasePaddle(bool playerSide)
@@ -85,6 +120,13 @@ public class GameManager : MonoBehaviour
         {
             addedBottom.transform.Rotate(0, 0, 180);
             addedTop.transform.Rotate(0, 0, 180);
+            addedBottom.gameObject.tag = "RPaddle";
+            addedTop.gameObject.tag = "RPaddle";
+        }
+        else
+        {
+            addedBottom.gameObject.tag = "LPaddle";
+            addedTop.gameObject.tag = "LPaddle";
         }
         addedBottom.transform.SetParent(paddle.transform);
         addedTop.transform.SetParent(paddle.transform);
