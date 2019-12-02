@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6909152306507627430}
   - component: {fileID: 3409136560563652465}
   - component: {fileID: 9040682755168880915}
-  - component: {fileID: 5592783607312478451}
+  - component: {fileID: -961660233193157618}
   m_Layer: 0
   m_Name: PaddleBrick
   m_TagString: Paddle
@@ -107,7 +107,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 1.3, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &9040682755168880915
 Rigidbody2D:
@@ -130,7 +130,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
---- !u!114 &5592783607312478451
+--- !u!114 &-961660233193157618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,9 +139,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5299676174690209109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64a2c36419b6f4948a5c6dc6e990f1a6, type: 3}
+  m_Script: {fileID: 11500000, guid: a4f195606dc72ab4681d88a956e30bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPaddle: {fileID: 0}
-  height: 0
   isRight: 0
+  height: 0

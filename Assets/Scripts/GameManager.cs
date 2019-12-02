@@ -72,12 +72,12 @@ public class GameManager : MonoBehaviour
         }
 
         Vector2 topPos, bottomPos;
-        Paddle addedTop = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
-        Paddle addedBottom = Instantiate(Resources.Load<Paddle>("PaddleBrick"));
+        PaddleBrick addedTop = Instantiate(Resources.Load<PaddleBrick>("PaddleBrick"));
+        PaddleBrick addedBottom = Instantiate(Resources.Load<PaddleBrick>("PaddleBrick"));
         topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y *2  + state * addedTop.transform.localScale.y));
         bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y *2 + state * addedBottom.transform.localScale.y));
-        addedTop.Init(playerSide);
-        addedBottom.Init(playerSide);
+        addedTop.Init(playerSide, paddle);
+        addedBottom.Init(playerSide, paddle);
 //        paddle.height += addedTop.height * 2;
         addedTop.transform.position = topPos;
         addedBottom.transform.position = bottomPos;
