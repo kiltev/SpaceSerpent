@@ -182,36 +182,46 @@ public class Snake : MonoBehaviour
         _bodySize += 1;
     }
 
-//    private Vector2 PositionCalc(Transform bodyPart, float angle)
-//  {
-//        Debug.Log("Angle: " + angle);
-//      Vector2 retVal = new Vector2(0, 0);
-//      Vector2 pos = bodyPart.position;
-//      if (angle > 0 && angle <= 90)
-//      {
-//          retVal.x = pos.x - (Mathf.Sin(angle) * _dis);
-//          retVal.y = pos.y - (Mathf.Cos(angle) * _dis); 
-//      }
-//
-//      if (angle > 90 && angle <= 180)
-//      {
-//          retVal.x = pos.x - (Mathf.Cos(angle - 90) * _dis);
-//          retVal.y = pos.y + (Mathf.Sin(angle - 90) * _dis); 
-//      }
-//
-//      if (angle > 180 && angle <= 270)
-//      {
-//          retVal.x = pos.x + (Mathf.Sin(angle - 180) * _dis);
-//          retVal.y = pos.y + (Mathf.Cos(angle - 180) * _dis); 
-//      }
-//      
-//      if (angle > 270 && angle <= 360)
-//      {
-//          retVal.x = pos.x + (Mathf.Cos(angle - 270) * _dis);
-//          retVal.y = pos.y - (Mathf.Sin(angle - 270) * _dis); 
-//      }
-//      return retVal;
-//  }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Bonus"))
+        {
+            Debug.Log("You Hit The Bonus!");
+            other.gameObject.SetActive(false);
+        }
+    }
+
+
+    //    private Vector2 PositionCalc(Transform bodyPart, float angle)
+    //  {
+    //        Debug.Log("Angle: " + angle);
+    //      Vector2 retVal = new Vector2(0, 0);
+    //      Vector2 pos = bodyPart.position;
+    //      if (angle > 0 && angle <= 90)
+    //      {
+    //          retVal.x = pos.x - (Mathf.Sin(angle) * _dis);
+    //          retVal.y = pos.y - (Mathf.Cos(angle) * _dis); 
+    //      }
+    //
+    //      if (angle > 90 && angle <= 180)
+    //      {
+    //          retVal.x = pos.x - (Mathf.Cos(angle - 90) * _dis);
+    //          retVal.y = pos.y + (Mathf.Sin(angle - 90) * _dis); 
+    //      }
+    //
+    //      if (angle > 180 && angle <= 270)
+    //      {
+    //          retVal.x = pos.x + (Mathf.Sin(angle - 180) * _dis);
+    //          retVal.y = pos.y + (Mathf.Cos(angle - 180) * _dis); 
+    //      }
+    //      
+    //      if (angle > 270 && angle <= 360)
+    //      {
+    //          retVal.x = pos.x + (Mathf.Cos(angle - 270) * _dis);
+    //          retVal.y = pos.y - (Mathf.Sin(angle - 270) * _dis); 
+    //      }
+    //      return retVal;
+    //  }
 }
 
 
@@ -264,11 +274,3 @@ public class Snake : MonoBehaviour
 //            }
 //        }
 //    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Bonus"))
-        {
-            Debug.Log("You Hit The Bonus!");
-            other.gameObject.SetActive(false);
-        }
-    }
