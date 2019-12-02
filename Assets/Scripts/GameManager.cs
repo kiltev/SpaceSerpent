@@ -16,12 +16,12 @@ public class GameManager : MonoBehaviour
     private bool isRightPaddle = true;
     private bool isLeftPaddle = false;
 //    Color32 color = new Color32(0xFF, 0xFF, 0xFF, 0xFF);  //White Color in Hex
-    Color orangeStart = new Color32(255,121, 0, 100); //FF7900
-    Color orangeEnd = new Color32(255, 216, 0, 100);
-    Color pinkStart = new Color32(255, 0, 255, 100); //FF00FF
-    Color pinkEnd = new Color32(0, 155, 255, 100);
-    Color greenStart = new Color32(0, 255, 12, 100); //00FF0C
-    Color greenEnd = new Color32(0, 255, 12, 80);
+    Color orangeStart = new Color32(255,121, 0, 255); //FF7900
+    Color orangeEnd = new Color32(255, 216, 0, 255);
+    Color pinkStart = new Color32(255, 0, 255, 255); //FF00FF
+    Color pinkEnd = new Color32(0, 155, 255, 255);
+    Color greenStart = new Color32(0, 255, 12, 255); //00FF0C
+    Color greenEnd = new Color32(0, 255, 0, 200);
 
     private float duration = 0.8f;
     // Start is called before the first frame update
@@ -66,13 +66,12 @@ public class GameManager : MonoBehaviour
         }
 
         //manage snake colors:
+        Color color1, color2;
+        int idx = 1;
         if (snake.lastTarget == 1) //if snake hit the right paddle last
         {
-            snake.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color like right paddle
-            foreach (var bodyPart in snake.bodyParts)
-            {
-                bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color the children of right paddle the same colors
-            }
+            color1 = orangeStart;
+            color2 = orangeEnd;
         }
         else if(snake.lastTarget == 2)
         {
@@ -81,14 +80,25 @@ public class GameManager : MonoBehaviour
             {
                 bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color the children of right paddle the same colors
             }
+            color1 = pinkStart;
+            color2 = pinkEnd;
         }
         else
         {
-            snake.GetComponent<Renderer>().material.color = Color.Lerp(greenStart, greenEnd, lerp); //color like left paddle
-            foreach (var bodyPart in snake.bodyParts)
+            color1 = greenStart;
+            color2 = greenEnd;
+        }
+        snake.GetComponent<Renderer>().material.color = Color.Lerp(color1, color2, lerp); // color like right paddle
+        foreach (var bodyPart in snake.bodyParts)
+        {
+            Color reduceAlpha = new Color32(0, 0, 0, 35);
+            if (idx <= 4)
             {
-                bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(greenStart, greenEnd, lerp); // color the children of right paddle the same colors
+                color1 -= reduceAlpha;
+                color2 -= reduceAlpha;
             }
+            bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(color1, color2, lerp); // color the children of right paddle the same colors
+            idx++;
         }
     }
     public void IncreasePaddle(bool playerSide)
