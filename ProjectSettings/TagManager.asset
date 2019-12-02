@@ -12,6 +12,8 @@ TagManager:
   - SnakeBody
   - RWall
   - LWall
+  - RPaddle
+  - LPaddle
   layers:
   - Default
   - TransparentFX
