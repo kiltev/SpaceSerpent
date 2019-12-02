@@ -17,9 +17,9 @@ public class BonusCotroller : MonoBehaviour
     {
         _bonuses = new List<Bonus>();
         _fromLastBonus = 0;
-        _currWaitTime = 3;
-        Bonus bonus = GenerateBonus();
-        _bonuses.Add(bonus);
+        _currWaitTime = 0;
+//        Bonus bonus = GenerateBonus();
+//        _bonuses.Add(bonus);
         CreateRandomWaitingTime();
     }
 

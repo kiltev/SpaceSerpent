@@ -188,6 +188,7 @@ public class Snake : MonoBehaviour
         {
             Debug.Log("You Hit The Bonus!");
             other.gameObject.SetActive(false);
+            Destroy(other.gameObject);
             AddBodyPart();
         }
     }
