@@ -61,7 +61,7 @@ public class Snake : MonoBehaviour
             vel.x = _snakeHead.velocity.x;
             vel.y = _snakeHead.velocity.y / 2 + coll.collider.attachedRigidbody.velocity.y / 3;
             _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
-            AddBodyPart();
+//            AddBodyPart();
             if (transform.position.x > 0)
                 _localLastFail = false;
             else
@@ -91,18 +91,18 @@ public class Snake : MonoBehaviour
         speed = _initialSpeed;
         for (var i = 0; i < bodyParts.Count; i++) bodyParts[i].position = Vector2.zero;
 
-        if (_localLastFail)
-//        if (GameManager.lastFail)
+//        if (_localLastFail)
+        if (GameManager.lastFail)
         {
             _direction = new Vector2(Random.Range(-0.7f, -0.1f), Random.Range(-0.7f, 0.7f)).normalized;
-            _localLastFail = false;
-//            GameManager.lastFail = false;
+//            _localLastFail = false;
+            GameManager.lastFail = false;
         }
         else
         {
             _direction = new Vector2(Random.Range(0.1f, 0.7f), Random.Range(-0.7f, 0.7f)).normalized;
-            _localLastFail = true;
-//            GameManager.lastFail = true;
+//            _localLastFail = true;
+            GameManager.lastFail = true;
         }
 
         _snakeHead.velocity = _direction * Time.deltaTime * speed;
@@ -188,7 +188,7 @@ public class Snake : MonoBehaviour
         {
             Debug.Log("You Hit The Bonus!");
             other.gameObject.SetActive(false);
-//            AddBodyPart();
+            AddBodyPart();
         }
     }
 

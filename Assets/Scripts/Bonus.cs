@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
+    private int marginIncrease;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,8 @@ public class Bonus : MonoBehaviour
 
     public void Init()
     {
-        transform.position = new Vector2(Random.Range(GameManager.BottomLeft.x, GameManager.TopRight.x),
-            Random.Range(GameManager.BottomLeft.y, GameManager.TopRight.y));
+        marginIncrease = 2;
+        transform.position = new Vector2(Random.Range(GameManager.BottomLeft.x + marginIncrease, GameManager.TopRight.x - marginIncrease),
+            Random.Range(GameManager.BottomLeft.y + marginIncrease, GameManager.TopRight.y - marginIncrease));
     }
 }
