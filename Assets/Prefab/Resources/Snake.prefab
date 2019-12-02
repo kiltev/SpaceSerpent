@@ -118,8 +118,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyParts: []
+  bodyPrefab: {fileID: -6919005676479672058, guid: 7d0f04b6be760be48b9f00023d601292,
+    type: 3}
+  gameManager: {fileID: 0}
   minDistance: 0
-  bodyPrefab: {fileID: 0}
   speed: 0
 --- !u!58 &2484027870615868690
 CircleCollider2D:
