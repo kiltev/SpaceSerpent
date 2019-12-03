@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8848056447441856244}
   - component: {fileID: 2484027870615868690}
   - component: {fileID: -6419331785607625486}
+  - component: {fileID: 7798861894254300910}
   m_Layer: 0
-  m_Name: Bonus
+  m_Name: Bonus2
   m_TagString: Bonus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,5 +133,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e3997a684cde846a5849ca00ee357b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selfDistructMinTime: 8
-  selfDistructMaxTime: 12
+  selfDistructMinTime: 350
+  selfDistructMaxTime: 500
+--- !u!95 &7798861894254300910
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444792118929114548}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ee48c5b76026fe044829bfa7ea2938a0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

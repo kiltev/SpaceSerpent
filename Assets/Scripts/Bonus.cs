@@ -11,7 +11,7 @@ public class Bonus : MonoBehaviour
     void Start()
     {
         currentTime = 0;
-        timeToLeave = Random.Range(selfDistructMinTime, selfDistructMaxTime);
+        timeToLeave = Random.Range(selfDistructMinTime, selfDistructMaxTime) *Time.deltaTime;
     }
 
     // Update is called once per frame

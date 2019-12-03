@@ -283,8 +283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b150bf5135f544aa1c311d4d0c51ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWaitingTime: 1
-  maxWaitingTime: 3
+  minWaitingTime: 60
+  maxWaitingTime: 120
 --- !u!1 &810329687
 GameObject:
   m_ObjectHideFlags: 0

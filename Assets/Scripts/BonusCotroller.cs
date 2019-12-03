@@ -38,12 +38,22 @@ public class BonusCotroller : MonoBehaviour
 
     void CreateRandomWaitingTime()
     {
-        _currWaitTime = Random.Range(minWaitingTime, maxWaitingTime);
+        _currWaitTime = Random.Range(minWaitingTime, maxWaitingTime)*Time.deltaTime;
     }
 
     Bonus GenerateBonus()
     {
-        Bonus bonus = Instantiate(Resources.Load<Bonus>("Bonus"));
+        int whichBonus = Random.Range(1, 3);
+        Bonus bonus;
+        if (whichBonus == 1)
+        {
+            bonus = Instantiate(Resources.Load<Bonus>("Bonus1"));
+        }
+        else
+        {
+            bonus = Instantiate(Resources.Load<Bonus>("Bonus2"));
+        }
+//        Bonus bonus = Instantiate(Resources.Load<Bonus>("Bonus"));
         bonus.Init();
         return bonus;
     }
