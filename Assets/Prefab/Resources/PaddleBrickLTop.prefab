@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 3409136560563652465}
   - component: {fileID: 9040682755168880915}
   - component: {fileID: -961660233193157618}
+  - component: {fileID: 4539962225296371628}
   m_Layer: 0
-  m_Name: PaddleBrick
+  m_Name: PaddleBrickLTop
   m_TagString: Paddle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,3 +145,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRight: 0
   height: 0
+--- !u!95 &4539962225296371628
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299676174690209109}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0065689d2beca945a2447fcf58b22c1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PaddleBrick : MonoBehaviour
@@ -47,7 +48,9 @@ public class PaddleBrick : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Snake"))
         {
-            this.GetComponentInParent<Animator>().SetTrigger("isHit");
+            //Call the animation coroutine in the parent
+            Paddle parent = this.GetComponentInParent(typeof(Paddle)) as Paddle;
+            StartCoroutine(parent.animatePaddleOnHit());
         }
     }
 }

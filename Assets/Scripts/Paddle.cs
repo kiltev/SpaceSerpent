@@ -86,7 +86,20 @@ public class Paddle : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Snake"))
         {
-            this.GetComponent<Animator>().SetTrigger("isHit");
+            StartCoroutine(animatePaddleOnHit());
+        }
+    }
+
+    public IEnumerator animatePaddleOnHit()  //Animation Coroutine
+    {
+        float delay = 1.5f * Time.deltaTime;
+        this.GetComponent<Animator>().SetTrigger("isHit");
+        Animator[] childrenAnimators = this.GetComponentsInChildren<Animator>();
+        foreach (var anim in childrenAnimators)
+        {
+            yield return new WaitForSeconds(delay);
+            anim.Play("onHit");
+            delay += 1.5f * Time.deltaTime;
         }
     }
 }
