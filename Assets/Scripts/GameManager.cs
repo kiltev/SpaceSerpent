@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     Color orangeStart = new Color32(255,121, 0, 255); //FF7900
     Color orangeEnd = new Color32(255, 216, 0, 255);
     Color pinkStart = new Color32(255, 0, 255, 255); //FF00FF
-    Color pinkEnd = new Color32(0, 155, 255, 255);
+    Color pinkEnd = new Color32(128, 38, 188, 255);
     Color greenStart = new Color32(0, 255, 12, 255); //00FF0C
     Color greenEnd = new Color32(0, 255, 0, 200);
 
@@ -52,17 +52,17 @@ public class GameManager : MonoBehaviour
         // manage colors for paddles :
 
         float lerp = Mathf.PingPong(Time.time, duration) / duration;
-        rightPaddle.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color right paddle
+        rightPaddle.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color right paddle
         Renderer[] rightChildrenRenderer = rightPaddle.GetComponentsInChildren<Renderer>();
         foreach (var r in rightChildrenRenderer)
         {
-            r.material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color the children of right paddle the same colors
+            r.material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color the children of right paddle the same colors
         }
-        leftPaddle.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp);
+        leftPaddle.GetComponent<Renderer>().material.color = Color.Lerp(orangeStart, orangeEnd, lerp);
         Renderer[] leftChildrenRenderer = leftPaddle.GetComponentsInChildren<Renderer>();
         foreach (var r in leftChildrenRenderer)
         {
-            r.material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color the children of right paddle the same colors
+            r.material.color = Color.Lerp(orangeStart, orangeEnd, lerp); // color the children of right paddle the same colors
         }
 
         //manage snake colors:
@@ -70,8 +70,8 @@ public class GameManager : MonoBehaviour
         int idx = 1;
         if (snake.lastTarget == 1) //if snake hit the right paddle last
         {
-            color1 = orangeStart;
-            color2 = orangeEnd;
+            color1 = orangeEnd;
+            color2 = orangeStart;
         }
         else if(snake.lastTarget == 2)
         {
