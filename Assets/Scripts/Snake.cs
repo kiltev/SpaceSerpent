@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Snake : MonoBehaviour
 {
@@ -176,6 +177,7 @@ public class Snake : MonoBehaviour
             other.gameObject.SetActive(false);
             Destroy(other.gameObject);
             AddBodyPart();
+            this.GetComponent<Animator>().SetTrigger("ate");
         }
     }
 

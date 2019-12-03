@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8848056447441856244}
   - component: {fileID: 7421038649334108917}
   - component: {fileID: 2484027870615868690}
+  - component: {fileID: 6003811077880507712}
   m_Layer: 0
   m_Name: SnakeHead
   m_TagString: Snake
@@ -139,3 +140,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!95 &6003811077880507712
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444792118929114548}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4fab0f4e92bb0149a8ed4d2f6bf10bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
