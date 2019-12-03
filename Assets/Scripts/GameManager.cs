@@ -104,25 +104,28 @@ public class GameManager : MonoBehaviour
     public void IncreasePaddle(bool playerSide)
     {
         Paddle paddle;
-        string side;
+        string sideTop;
+        string sideBottom;
         int state;
         if (playerSide)
         {
             paddle = rightPaddle;
             state = rightPlayerState;
-            side = "PaddleBrickR";
+            sideTop = "PaddleBrickRTop";
+            sideBottom = "PaddleBrickRBottom";
         }
         else
         {
             paddle = leftPaddle;
             state = leftPlayerState;
-            side = "PaddleBrickL";
+            sideTop = "PaddleBrickLTop";
+            sideBottom = "PaddleBrickLBottom";
         }
 
         Vector2 topPos, bottomPos;
         
-        PaddleBrick addedTop = Instantiate(Resources.Load<PaddleBrick>(side));
-        PaddleBrick addedBottom = Instantiate(Resources.Load<PaddleBrick>(side));
+        PaddleBrick addedTop = Instantiate(Resources.Load<PaddleBrick>(sideTop));
+        PaddleBrick addedBottom = Instantiate(Resources.Load<PaddleBrick>(sideBottom));
         topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y *2  + state * addedTop.transform.localScale.y));
         bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y *2 + state * addedBottom.transform.localScale.y));
         addedTop.Init(playerSide, paddle);
