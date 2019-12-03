@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +15,7 @@ public class Snake : MonoBehaviour
     private Transform _prev;
     private float _radius;
     private Rigidbody2D _snakeHead;
+    public List<Transform> currentBodyParts;
     public List<Transform> bodyParts = new List<Transform>();
     public SnakeBody bodyPrefab;
     public GameManager gameManager;
@@ -177,7 +179,20 @@ public class Snake : MonoBehaviour
             other.gameObject.SetActive(false);
             Destroy(other.gameObject);
             AddBodyPart();
-            this.GetComponent<Animator>().SetTrigger("ate");
+            StartCoroutine(animateSnake());
+        }
+    }
+
+    public IEnumerator animateSnake()  //Animation Coroutine
+    {
+        float delay = 0.7f * Time.deltaTime;
+        this.GetComponent<Animator>().SetTrigger("ate");
+        currentBodyParts = new List<Transform>(bodyParts);
+        foreach (var bodyPart in currentBodyParts)
+        {
+            yield return new WaitForSeconds(delay);
+            bodyPart.GetComponent<Animator>().SetTrigger("ate");
+            delay += 0.7f * Time.deltaTime;
         }
     }
 

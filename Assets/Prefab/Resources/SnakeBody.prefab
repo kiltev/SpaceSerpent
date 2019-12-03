@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3888273667235408374}
   - component: {fileID: -8296681709498555796}
   - component: {fileID: -6919005676479672058}
+  - component: {fileID: 7077496676184325041}
   m_Layer: 0
   m_Name: SnakeBody
   m_TagString: SnakeBody
@@ -132,3 +133,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ec0a5555c3605c439e2aa2f93c0da54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7077496676184325041
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477571234513570891}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8273cbbaf0b0c49469dc39fe3b954b17, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
