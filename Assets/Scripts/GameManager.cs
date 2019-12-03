@@ -70,18 +70,13 @@ public class GameManager : MonoBehaviour
         int idx = 1;
         if (snake.lastTarget == 1) //if snake hit the right paddle last
         {
-            color1 = orangeEnd;
-            color2 = orangeStart;
+            color1 = pinkStart;
+            color2 = pinkEnd;
         }
         else if(snake.lastTarget == 2)
         {
-            snake.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp); //color like left paddle
-            foreach (var bodyPart in snake.bodyParts)
-            {
-                bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(pinkStart, pinkEnd, lerp); // color the children of right paddle the same colors
-            }
-            color1 = pinkStart;
-            color2 = pinkEnd;
+            color1 = orangeStart;
+            color2 = orangeEnd;
         }
         else
         {
@@ -91,13 +86,13 @@ public class GameManager : MonoBehaviour
         snake.GetComponent<Renderer>().material.color = Color.Lerp(color1, color2, lerp); // color like right paddle
         foreach (var bodyPart in snake.bodyParts)
         {
-            Color reduceAlpha = new Color32(0, 0, 0, 35);
+            Color reduceAlpha = new Color32(0, 0, 0, 40);
             if (idx <= 4)
             {
                 color1 -= reduceAlpha;
                 color2 -= reduceAlpha;
             }
-            bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(color1, color2, lerp); // color the children of right paddle the same colors
+            bodyPart.GetComponent<Renderer>().material.color = Color.Lerp(color1, color2, lerp); 
             idx++;
         }
     }
