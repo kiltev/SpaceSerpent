@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour
         snake.GetComponent<Snake>().gameManager = this;
 //        leftPlayerState = minState;
 //        rightPlayerState = minState;
-        rightPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
-        leftPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrick"));
+        rightPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrickR"));
+        leftPaddle =  Instantiate(Resources.Load<Paddle>("PaddleMainBrickL"));
         rightPaddle.Init(isRightPaddle);
         leftPaddle.Init(isLeftPaddle);
-        rightPaddle.transform.Rotate(0,0,180);
+//        rightPaddle.transform.Rotate(0,0,180);
         leftPaddle.gameObject.tag = "LPaddle";
         rightPaddle.gameObject.tag = "RPaddle";
 //        rightPaddle.GetComponent<Renderer>().material.SetColor("_Color", color);
@@ -104,21 +104,25 @@ public class GameManager : MonoBehaviour
     public void IncreasePaddle(bool playerSide)
     {
         Paddle paddle;
+        string side;
         int state;
         if (playerSide)
         {
             paddle = rightPaddle;
             state = rightPlayerState;
+            side = "PaddleBrickR";
         }
         else
         {
             paddle = leftPaddle;
             state = leftPlayerState;
+            side = "PaddleBrickL";
         }
 
         Vector2 topPos, bottomPos;
-        PaddleBrick addedTop = Instantiate(Resources.Load<PaddleBrick>("PaddleBrick"));
-        PaddleBrick addedBottom = Instantiate(Resources.Load<PaddleBrick>("PaddleBrick"));
+        
+        PaddleBrick addedTop = Instantiate(Resources.Load<PaddleBrick>(side));
+        PaddleBrick addedBottom = Instantiate(Resources.Load<PaddleBrick>(side));
         topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y *2  + state * addedTop.transform.localScale.y));
         bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y *2 + state * addedBottom.transform.localScale.y));
         addedTop.Init(playerSide, paddle);
@@ -128,8 +132,8 @@ public class GameManager : MonoBehaviour
         addedBottom.transform.position = bottomPos;
         if (paddle.isRight)
         {
-            addedBottom.transform.Rotate(0, 0, 180);
-            addedTop.transform.Rotate(0, 0, 180);
+//            addedBottom.transform.Rotate(0, 0, 180);
+//            addedTop.transform.Rotate(0, 0, 180);
             addedBottom.gameObject.tag = "RPaddle";
             addedTop.gameObject.tag = "RPaddle";
         }

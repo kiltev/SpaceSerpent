@@ -43,4 +43,11 @@ public class PaddleBrick : MonoBehaviour
         }
         transform.position = pos;
     }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Snake"))
+        {
+            this.GetComponentInParent<Animator>().SetTrigger("isHit");
+        }
+    }
 }

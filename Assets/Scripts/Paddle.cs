@@ -9,7 +9,9 @@ public class Paddle : MonoBehaviour
     private float _speed;
     private string _input;
     public bool isRight;
-        // Start is called before the first frame update
+
+//    [SerializeField] private Animator mAnimator;
+    // Start is called before the first frame update
     void Start()
     {
         playerPaddle = GetComponent<Rigidbody2D>();
@@ -23,12 +25,13 @@ public class Paddle : MonoBehaviour
         Vector2 pos = Vector2.zero;
         if (isRightPaddle)
         {
-            pos = new Vector2(GameManager.TopRight.x,0) + (Vector2.left * transform.localScale.x);
+            pos = new Vector2(GameManager.TopRight.x, 0) + (Vector2.left * transform.localScale.x);
         }
         else
         {
-            pos = new Vector2(GameManager.BottomLeft.x,0) + (Vector2.right * transform.localScale.x);
+            pos = new Vector2(GameManager.BottomLeft.x, 0) + (Vector2.right * transform.localScale.x);
         }
+
         transform.position = pos;
     }
 
@@ -45,24 +48,24 @@ public class Paddle : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                move =  Time.deltaTime * _speed;
+                move = Time.deltaTime * _speed;
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                move =  -Time.deltaTime * _speed;
+                move = -Time.deltaTime * _speed;
             }
         }
         else
         {
             if (Input.GetKey(KeyCode.W))
             {
-                move =  Time.deltaTime * _speed;
+                move = Time.deltaTime * _speed;
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                move =  -Time.deltaTime * _speed;
+                move = -Time.deltaTime * _speed;
             }
         }
 
@@ -70,10 +73,20 @@ public class Paddle : MonoBehaviour
         {
             move = 0;
         }
+
         if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.2f && move > 0f)
         {
             move = 0;
         }
+
         playerPaddle.velocity = move * Vector2.up;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Snake"))
+        {
+            this.GetComponent<Animator>().SetTrigger("isHit");
+        }
     }
 }

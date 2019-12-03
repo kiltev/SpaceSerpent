@@ -23,7 +23,6 @@ public class Snake : MonoBehaviour
     public float speed;
     private int rightPaddle;
     private int leftPaddle;
-
     // Start is called before the first frame update
     private void Start()
     {
