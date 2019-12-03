@@ -15,7 +15,7 @@ public class Paddle : MonoBehaviour
     void Start()
     {
         playerPaddle = GetComponent<Rigidbody2D>();
-        _speed = 800f;
+        _speed = 700f;
         height = GetComponent<BoxCollider2D>().bounds.size.y;
     }
 
