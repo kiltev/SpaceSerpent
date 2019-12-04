@@ -34,3 +34,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+/Logs/Packages-Update.log
+/Packages/manifest.json
