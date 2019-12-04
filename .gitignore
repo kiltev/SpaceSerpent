@@ -36,3 +36,4 @@ sysinfo.txt
 *.unitypackage
 /Logs/Packages-Update.log
 /Packages/manifest.json
+/.idea
