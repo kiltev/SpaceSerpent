@@ -9,6 +9,7 @@ public class Paddle : MonoBehaviour
     private float _speed;
     private string _input;
     public bool isRight;
+    [SerializeField] private float delayF;
 
 //    [SerializeField] private Animator mAnimator;
     // Start is called before the first frame update
@@ -92,14 +93,14 @@ public class Paddle : MonoBehaviour
 
     public IEnumerator animatePaddleOnHit()  //Animation Coroutine
     {
-        float delay = 1.5f * Time.deltaTime;
+        float delay = delayF * Time.deltaTime;
         this.GetComponent<Animator>().SetTrigger("isHit");
         Animator[] childrenAnimators = this.GetComponentsInChildren<Animator>();
         foreach (var anim in childrenAnimators)
         {
             yield return new WaitForSeconds(delay);
             anim.Play("onHit");
-            delay += 1.5f * Time.deltaTime;
+            delay += delayF * Time.deltaTime;
         }
     }
 }
