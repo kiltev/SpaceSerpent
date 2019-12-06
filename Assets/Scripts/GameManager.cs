@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SoundsManager.Instance.PlayMainGameBGM();
         BottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
         TopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         

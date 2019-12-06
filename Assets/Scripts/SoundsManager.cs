@@ -87,7 +87,7 @@ public class SoundsManager : MonoBehaviour
     }
 
     // Play1 a single clip through the music source.
-    public void PlayMusic(AudioClip clip)
+    private void PlayMusic(AudioClip clip)
     {
         MusicSource.clip = clip;
         MusicSource.Play();
@@ -147,9 +147,8 @@ public class SoundsManager : MonoBehaviour
         Play3(Resources.Load<AudioClip>("Eat"));
     }
 
-    public void PlayBGM(AudioClip clip)
+    public void PlayMainGameBGM()
     {
-        MusicSource.clip = clip;
-        MusicSource.Play();
+        PlayMusic(Resources.Load<AudioClip>("BGM"));
     }
 }
