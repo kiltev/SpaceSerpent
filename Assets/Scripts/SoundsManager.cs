@@ -151,4 +151,9 @@ public class SoundsManager : MonoBehaviour
     {
         PlayMusic(Resources.Load<AudioClip>("BGM"));
     }
+
+//    public void PlayMenuBGM()
+//    {
+//        PlayMusic(Resources.Load<AudioClip>("IntroMusic"));
+//    }
 }

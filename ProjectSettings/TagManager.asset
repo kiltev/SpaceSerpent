@@ -15,6 +15,7 @@ TagManager:
   - RPaddle
   - LPaddle
   - BonusSpawner
+  - Button
   layers:
   - Default
   - TransparentFX

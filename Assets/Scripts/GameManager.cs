@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static bool lastFail;
@@ -201,8 +201,7 @@ public class GameManager : MonoBehaviour
         }
         toDestroy.GetComponent<Animator>().SetTrigger("isDead");
         Destroy(toDestroy);
-//            , toDestroy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length
-
+        SceneManager.LoadScene("EndScreen");
     }
 
     private void DisableInput()
