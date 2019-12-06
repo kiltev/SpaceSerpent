@@ -14,6 +14,7 @@ TagManager:
   - LWall
   - RPaddle
   - LPaddle
+  - BonusSpawner
   layers:
   - Default
   - TransparentFX

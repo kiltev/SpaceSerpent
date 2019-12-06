@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 709239022}
   m_Layer: 0
   m_Name: BonusSpawner
-  m_TagString: Untagged
+  m_TagString: BonusSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
   rightPlayerState: 0
   maxState: 4
   snake: {fileID: 7421038649334108917, guid: 28da001346645a44aad519000d37e901, type: 3}
-  soundManager: {fileID: 0}
+  bonusSpawner: {fileID: 0}
 --- !u!4 &864704953
 Transform:
   m_ObjectHideFlags: 0
