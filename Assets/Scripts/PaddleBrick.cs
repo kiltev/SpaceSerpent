@@ -8,7 +8,7 @@ public class PaddleBrick : MonoBehaviour
     
     public bool isRight;
     public float height;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +50,7 @@ public class PaddleBrick : MonoBehaviour
         {
             //Call the animation coroutine in the parent
             Paddle parent = this.GetComponentInParent(typeof(Paddle)) as Paddle;
+            SoundsManager.Instance.PlayRandomPaddleHitSound();
             StartCoroutine(parent.animatePaddleOnHit());
         }
     }

@@ -26,6 +26,9 @@ public class Snake : MonoBehaviour
     public float speed;
     private int rightPaddle;
     private int leftPaddle;
+
+    [SerializeField] private float animationDelayBetweenParts;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -89,15 +92,23 @@ public class Snake : MonoBehaviour
 
         if (coll.collider.CompareTag("RWall"))
         {
+            SoundsManager.Instance.PlayLoseRoundSound();
             gameManager.PointHandler(rightPlayer);
             ResetSnake();
         }
 
         if (coll.collider.CompareTag("LWall"))
         {
+            SoundsManager.Instance.PlayLoseRoundSound();
             gameManager.PointHandler(leftPlayer);
             ResetSnake();
         }
+
+        if (coll.collider.CompareTag("TBWall"))
+        {
+            SoundsManager.Instance.PlayRandomWallHitSound();
+        }
+
     }
 
 
@@ -179,14 +190,15 @@ public class Snake : MonoBehaviour
             other.gameObject.SetActive(false);
             Destroy(other.gameObject);
             AddBodyPart();
+            SoundsManager.Instance.PlayEatSound();
             StartCoroutine(animateSnake());
         }
     }
 
     public IEnumerator animateSnake()  //Animation Coroutine
     {
-        float delay = 0.7f * Time.deltaTime;
-        this.GetComponent<Animator>().SetTrigger("ate");
+        float delay = animationDelayBetweenParts * Time.deltaTime;
+//        this.GetComponent<Animator>().SetTrigger("ate");
         currentBodyParts = new List<Transform>(bodyParts);
         foreach (var bodyPart in currentBodyParts)
         {

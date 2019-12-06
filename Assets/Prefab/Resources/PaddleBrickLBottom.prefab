@@ -145,6 +145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRight: 0
   height: 0
+  soundManager: {fileID: 4433417021720153305, guid: 733d36c8f13f71b4991feca18eddff72,
+    type: 3}
 --- !u!95 &8647896624706319322
 Animator:
   serializedVersion: 3

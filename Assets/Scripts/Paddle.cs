@@ -10,8 +10,10 @@ public class Paddle : MonoBehaviour
     private string _input;
     public bool isRight;
     [SerializeField] private float delayF;
+//    public SoundsManager soundManager;
+    public bool InputEnabled = true;
 
-//    [SerializeField] private Animator mAnimator;
+    //    [SerializeField] private Animator mAnimator;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,49 +46,57 @@ public class Paddle : MonoBehaviour
 
     private void MovePaddle()
     {
-        float move = 0f;
-        if (isRight)
+        if(InputEnabled)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
+            float move = 0f;
+            if (isRight)
             {
-                move = Time.deltaTime * _speed;
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    move = Time.deltaTime * _speed;
+                }
+
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    move = -Time.deltaTime * _speed;
+                }
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.W))
+                {
+                    move = Time.deltaTime * _speed;
+                }
+
+                if (Input.GetKey(KeyCode.S))
+                {
+                    move = -Time.deltaTime * _speed;
+                }
             }
 
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (transform.position.y < GameManager.BottomLeft.y + (height / 2f) + 0.2f && move < 0f)
             {
-                move = -Time.deltaTime * _speed;
+                move = 0;
             }
+
+            if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.2f && move > 0f)
+            {
+                move = 0;
+            }
+
+            playerPaddle.velocity = move * Vector2.up;
         }
         else
         {
-            if (Input.GetKey(KeyCode.W))
-            {
-                move = Time.deltaTime * _speed;
-            }
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                move = -Time.deltaTime * _speed;
-            }
+            playerPaddle.velocity = Vector2.zero;
         }
-
-        if (transform.position.y < GameManager.BottomLeft.y + (height / 2f) + 0.2f && move < 0f)
-        {
-            move = 0;
-        }
-
-        if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.2f && move > 0f)
-        {
-            move = 0;
-        }
-
-        playerPaddle.velocity = move * Vector2.up;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Snake"))
         {
+            SoundsManager.Instance.PlayRandomPaddleHitSound();
             StartCoroutine(animatePaddleOnHit());
         }
     }
