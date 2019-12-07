@@ -48,16 +48,17 @@ public class Paddle : MonoBehaviour
     {
 		if (height > _preHeight)
 		{
+			// diferent levels of acceleration depending on peddle height.
 			switch (_heightIncNum)
 			{
 				case 1:
-					_acceleration = 1.5f;
+					_acceleration = 1.2f;
 					break;
 				case 2:
 					_acceleration = 1.1f;
 					break;
 				case 3:
-					_acceleration = 1.05f;
+					_acceleration = 1.08f;
 					break;
 				default:
 					Debug.Log("Can't accelerate.");
