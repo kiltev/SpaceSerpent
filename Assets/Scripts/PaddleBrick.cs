@@ -24,7 +24,7 @@ public class PaddleBrick : MonoBehaviour
     {
         height = GetComponent<BoxCollider2D>().bounds.size.y;
         parent.height += height;
-        parent.speed -= 30f;
+        //parent.speed -= 30f;
 //        if (parent.transform.position.y < GameManager.BottomLeft.y + (parent.height / 2f) + 0.2f)
 //        {
 //            parent.transform.position = new Vector2(parent.transform.position.x, GameManager.BottomLeft.y + (height / 2f) + 0.2f);
