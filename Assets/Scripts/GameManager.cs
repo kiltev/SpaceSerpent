@@ -241,7 +241,6 @@ public class GameManager : MonoBehaviour
         StopBonusProduction();
         //Destroy the paddle that lost:
 
-//        float delay = 3f * Time.deltaTime;
         Paddle toDestroy;
         toDestroy = isRight ? rightPaddle : leftPaddle;
         SoundsManager.Instance.PlayUsedLastLifeSound();

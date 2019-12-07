@@ -6,7 +6,7 @@ public class Paddle : MonoBehaviour
 {
     public Rigidbody2D playerPaddle;
     public float height;
-    private float _speed;
+    public float speed;
     private string _input;
     public bool isRight;
     [SerializeField] private float delayF;
@@ -18,7 +18,7 @@ public class Paddle : MonoBehaviour
     void Start()
     {
         playerPaddle = GetComponent<Rigidbody2D>();
-        _speed = 700f;
+        speed = 700f;
         height = GetComponent<BoxCollider2D>().bounds.size.y;
     }
 
@@ -53,24 +53,24 @@ public class Paddle : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
-                    move = Time.deltaTime * _speed;
+                    move = Time.deltaTime * speed;
                 }
 
                 if (Input.GetKey(KeyCode.DownArrow))
                 {
-                    move = -Time.deltaTime * _speed;
+                    move = -Time.deltaTime * speed;
                 }
             }
             else
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                    move = Time.deltaTime * _speed;
+                    move = Time.deltaTime * speed;
                 }
 
                 if (Input.GetKey(KeyCode.S))
                 {
-                    move = -Time.deltaTime * _speed;
+                    move = -Time.deltaTime * speed;
                 }
             }
 

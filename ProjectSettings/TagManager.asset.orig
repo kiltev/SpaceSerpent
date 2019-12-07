@@ -17,8 +17,11 @@ TagManager:
   - BonusSpawner
   - Button
   - PauseScreen
+<<<<<<< HEAD
   - HeadTip
+=======
   - SoundManager
+>>>>>>> master
   layers:
   - Default
   - TransparentFX
