@@ -17,6 +17,7 @@ TagManager:
   - BonusSpawner
   - Button
   - PauseScreen
+  - HeadTip
   layers:
   - Default
   - TransparentFX
