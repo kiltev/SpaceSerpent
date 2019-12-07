@@ -201,7 +201,6 @@ public class GameManager : MonoBehaviour
         }
         toDestroy.GetComponent<Animator>().SetTrigger("isDead");
         Destroy(toDestroy);
-        SceneManager.LoadScene("EndScreen");
     }
 
     private void DisableInput()

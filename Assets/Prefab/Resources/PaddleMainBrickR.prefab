@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9040682755168880915}
   - component: {fileID: 5592783607312478451}
   - component: {fileID: 9277145248698456}
+  - component: {fileID: -4249971884457334003}
   m_Layer: 0
   m_Name: PaddleMainBrickR
   m_TagString: Paddle
@@ -147,7 +148,7 @@ MonoBehaviour:
   height: 0
   isRight: 0
   delayF: 1.5
-  soundManager: {fileID: 0}
+  InputEnabled: 1
 --- !u!95 &9277145248698456
 Animator:
   serializedVersion: 3
@@ -167,3 +168,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-4249971884457334003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299676174690209109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912026459ec836a41969ecde01d76d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

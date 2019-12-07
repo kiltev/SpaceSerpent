@@ -9,4 +9,9 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene("main");
     }
+
+    public void endGame()
+    {
+        SceneManager.LoadScene("endScreen");
+    }
 }
