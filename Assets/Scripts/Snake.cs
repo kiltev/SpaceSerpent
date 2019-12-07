@@ -90,7 +90,6 @@ public class Snake : MonoBehaviour
         if (coll.collider.CompareTag("RWall"))
         {
             SoundsManager.Instance.PlayLoseRoundSound();
-            gameManager.Shake();
             gameManager.PointHandler(rightPlayer);
             ResetSnake();
         }
@@ -98,7 +97,6 @@ public class Snake : MonoBehaviour
         if (coll.collider.CompareTag("LWall"))
         {
             SoundsManager.Instance.PlayLoseRoundSound();
-            gameManager.Shake();
             gameManager.PointHandler(leftPlayer);
             ResetSnake();
         }

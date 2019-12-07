@@ -644,7 +644,7 @@ MonoBehaviour:
   dim: {fileID: 52356016}
   pauseOverlay: {fileID: 585547738}
   shakeMagnitude: 0.05
-  shakeDuration: 0.5
+  shakeDuration: 0.2
   camera: {fileID: 1875555122}
 --- !u!4 &864704953
 Transform:

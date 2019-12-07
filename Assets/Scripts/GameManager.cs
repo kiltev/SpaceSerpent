@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private Vector3 cameraInitialPos;
     [SerializeField] private float shakeMagnitude = 0.05f;
-    [SerializeField] private float shakeDuration = 0.5f;
+    [SerializeField] private float shakeDuration = 0.2f;
     [SerializeField] private Camera camera;
 
     public void Shake()
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("StartCameraShaking", 0f, 0.005f);
         Invoke("StopCameraShaking", shakeDuration);
     }
+
 
     void StartCameraShaking()
     {
@@ -197,6 +198,7 @@ public class GameManager : MonoBehaviour
 
     public void PointHandler(bool playerMiss)
     {
+        Shake();
         if (playerMiss)
         {
             if (rightPlayerState + 1 >= maxState)
