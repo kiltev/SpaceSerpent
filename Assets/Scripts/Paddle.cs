@@ -7,6 +7,10 @@ public class Paddle : MonoBehaviour
     public Rigidbody2D playerPaddle;
     public float height;
     public float speed;
+	private float _preHeight;
+	private int _heightIncNum = 1;
+	private float _speedCap = 700f;
+	private float _acceleration = 2f;
     private string _input;
     public bool isRight;
     [SerializeField] private float delayF;
@@ -18,8 +22,9 @@ public class Paddle : MonoBehaviour
     void Start()
     {
         playerPaddle = GetComponent<Rigidbody2D>();
-        speed = 700f;
+        speed = 50f;
         height = GetComponent<BoxCollider2D>().bounds.size.y;
+		_preHeight = height;
     }
 
     public void Init(bool isRightPaddle)
@@ -41,6 +46,26 @@ public class Paddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (height > _preHeight)
+		{
+			switch (_heightIncNum)
+			{
+				case 1:
+					_acceleration = 1.5f;
+					break;
+				case 2:
+					_acceleration = 1.1f;
+					break;
+				case 3:
+					_acceleration = 1.05f;
+					break;
+				default:
+					Debug.Log("Can't accelerate.");
+					break;
+			}
+			_preHeight = height;
+			_heightIncNum += 1;
+		}
         MovePaddle();
     }
 
@@ -49,39 +74,58 @@ public class Paddle : MonoBehaviour
         if(InputEnabled)
         {
             float move = 0f;
+			speed = speed * _acceleration;
             if (isRight)
             {
+				if (speed > _speedCap)
+				{
+					speed = _speedCap;
+				}
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
                     move = Time.deltaTime * speed;
                 }
 
-                if (Input.GetKey(KeyCode.DownArrow))
+                else if (Input.GetKey(KeyCode.DownArrow))
                 {
                     move = -Time.deltaTime * speed;
                 }
+				else
+				{
+					speed = 50f;
+				}
             }
             else
             {
+				if (speed > _speedCap)
+				{
+					speed = _speedCap;
+				}
                 if (Input.GetKey(KeyCode.W))
                 {
                     move = Time.deltaTime * speed;
                 }
 
-                if (Input.GetKey(KeyCode.S))
+                else if (Input.GetKey(KeyCode.S))
                 {
                     move = -Time.deltaTime * speed;
                 }
+				else
+				{
+					speed = 50f;
+				}
             }
 
             if (transform.position.y < GameManager.BottomLeft.y + (height / 2f) + 0.2f && move < 0f)
             {
                 move = 0;
+				speed = 50f;
             }
 
             if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.2f && move > 0f)
             {
                 move = 0;
+				speed = 50f;
             }
 
             playerPaddle.velocity = move * Vector2.up;
