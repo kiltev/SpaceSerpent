@@ -10,6 +10,14 @@ public class GameManager : MonoBehaviour
     public BonusCotroller bonusSpawner;
     public static Vector2 BottomLeft;
     public static Vector2 TopRight;
+    private bool isPaused = false;
+
+    [SerializeField] private GameObject dim;
+    [SerializeField] private GameObject pauseOverlay;
+
+    private Quaternion snakeAngleOnPause;
+
+    private Vector2 snakeVelocityOnPause;
 //    private bool isInputEnabled = true;
 
     private Paddle rightPaddle, leftPaddle;
@@ -28,6 +36,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        dim.SetActive(false);
+        pauseOverlay.SetActive(false);
         SoundsManager.Instance.PlayMainGameBGM();
         BottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
         TopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -45,6 +55,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+            {  
+                isPaused = false;
+                Unpause();
+            }
+            else
+            {
+                isPaused = true;
+                Pause();
+            }
+        }
 
         // manage colors for paddles :
 
@@ -209,6 +232,12 @@ public class GameManager : MonoBehaviour
         rightPaddle.InputEnabled = false;
     }
 
+    private void EnableInput()
+    {
+        leftPaddle.InputEnabled = true;
+        rightPaddle.InputEnabled = true;
+    }
+
 
     private void KillSnake()
     {
@@ -218,8 +247,52 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void StopSnake()
+    {
+        snakeVelocityOnPause = snake.GetComponent<Rigidbody2D>().velocity;
+        snake.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        foreach (var snakePart in snake.bodyParts)
+        {
+            snakePart.gameObject.SetActive(false);
+        }
+    }
+
+    private void StartSnake()
+    {
+        foreach (var snakePart in snake.bodyParts)
+        {
+            snakePart.gameObject.SetActive(true);
+        }
+        snake.GetComponent<Rigidbody2D>().velocity = snakeVelocityOnPause;
+
+    }
+
+
     private void StopBonusProduction()
     {
-        GameObject.FindGameObjectWithTag("BonusSpawner").SetActive(false);
+        bonusSpawner.gameObject.SetActive(false);
+    }
+
+    private void StartBonusProduction()
+    {
+        bonusSpawner.gameObject.SetActive(true);
+    }
+
+    void Pause()
+    {
+        StopBonusProduction();
+        DisableInput();
+        StopSnake();
+        dim.SetActive(true);
+        pauseOverlay.SetActive(true);
+    }
+
+    void Unpause()
+    {
+        StartBonusProduction();
+        EnableInput();
+        StartSnake();
+        dim.SetActive(false);
+        pauseOverlay.SetActive(false);
     }
 }

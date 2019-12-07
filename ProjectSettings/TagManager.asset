@@ -16,6 +16,7 @@ TagManager:
   - LPaddle
   - BonusSpawner
   - Button
+  - PauseScreen
   layers:
   - Default
   - TransparentFX

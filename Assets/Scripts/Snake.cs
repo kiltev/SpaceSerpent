@@ -26,6 +26,7 @@ public class Snake : MonoBehaviour
     public float speed;
     private int rightPaddle;
     private int leftPaddle;
+    public float angle;
 
     [SerializeField] private float animationDelayBetweenParts;
 
@@ -50,7 +51,7 @@ public class Snake : MonoBehaviour
     private void Update()
     {
         var velocity = _snakeHead.velocity;
-        var angle = Vector2.SignedAngle(velocity, Vector2.up);
+        angle = Vector2.SignedAngle(velocity, Vector2.up);
         _snakeHead.transform.rotation = Quaternion.Euler(0, 0, -angle);
 //        Debug.Log("angle: " + angle + ", rotation: " + _snakeHead.transform.rotation.z);
 
@@ -85,10 +86,6 @@ public class Snake : MonoBehaviour
                 lastTarget = leftPaddle;
             }
         }
-
-//        if (coll.collider.CompareTag("Wall"))
-        //            Time.timeScale = 0;
-//            ResetSnake();
 
         if (coll.collider.CompareTag("RWall"))
         {

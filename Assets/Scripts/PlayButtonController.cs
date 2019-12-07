@@ -11,6 +11,7 @@ public class PlayButtonController : MonoBehaviour
     [SerializeField] private float fadeInDuration;
     [SerializeField] private float maxVolume;
     [SerializeField] private AudioSource buttonClick;
+    [SerializeField] private AudioSource buttonHover;
     [SerializeField] private GameObject playButton;
 //    private EventTrigger.Entry entry;
 
@@ -52,6 +53,7 @@ public class PlayButtonController : MonoBehaviour
     public void OnMouseEnter(BaseEventData eventData)
     {
         playButton.GetComponent<Animator>().SetBool("onHover", true);
+        buttonHover.Play();
         Debug.Log("entered");
     }
 
