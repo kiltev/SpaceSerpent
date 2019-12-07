@@ -91,6 +91,7 @@ public class Snake : MonoBehaviour
     {
         if (coll.collider.CompareTag("LPaddle") || coll.collider.CompareTag("RPaddle"))
         {
+            SoundsManager.Instance.PlayRandomPaddleHitSound();
             var initialSpeed = _snakeHead.velocity.magnitude;
             var paddleVelocity = coll.collider.attachedRigidbody.velocity;
 //            Debug.Log("speed: " + initialSpeed);
@@ -194,6 +195,13 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > 7)
+        {
+            Debug.Log("Snake collided with itself!");
+            //            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
+//            Snake parent = other.GetComponentInParent<Snake>();
+            ResetAfterCollision(other.GetComponent<SnakeBody>().placeInBody);
+        }
         if (other.CompareTag("Bonus"))
         {
             Debug.Log("You Hit The Bonus!");
@@ -213,7 +221,10 @@ public class Snake : MonoBehaviour
         foreach (var bodyPart in currentBodyParts)
         {
             yield return new WaitForSeconds(delay);
-            bodyPart.GetComponent<Animator>().SetTrigger("ate");
+            if (bodyPart != null)
+            {
+                bodyPart.GetComponent<Animator>().SetTrigger("ate");
+            }
             delay += 0.7f * Time.deltaTime;
         }
     }

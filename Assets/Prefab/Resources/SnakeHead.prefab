@@ -61,9 +61,10 @@ GameObject:
   - component: {fileID: 7421038649334108917}
   - component: {fileID: 2484027870615868690}
   - component: {fileID: 6003811077880507712}
+  - component: {fileID: 288475497787129665}
   m_Layer: 0
   m_Name: SnakeHead
-  m_TagString: Snake
+  m_TagString: HeadTip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,7 +171,6 @@ MonoBehaviour:
   bodyPrefab: {fileID: -6919005676479672058, guid: 7d0f04b6be760be48b9f00023d601292,
     type: 3}
   gameManager: {fileID: 0}
-  minDistance: 0
   lastTarget: 0
   speed: 0
   animationDelayBetweenParts: 1
@@ -181,7 +181,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3444792118929114548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: dd6fade5f0ae2104195e519d848a3b37, type: 2}
   m_IsTrigger: 0
@@ -209,3 +209,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!68 &288475497787129665
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444792118929114548}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: dd6fade5f0ae2104195e519d848a3b37, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -1.2631441, y: -0.11862317}
+  - {x: -0.74884593, y: 0.77594304}
+  - {x: 0.019156737, y: 1.1150132}
+  - {x: 0.7472254, y: 0.78609085}
+  - {x: 1.2414672, y: -0.117099695}

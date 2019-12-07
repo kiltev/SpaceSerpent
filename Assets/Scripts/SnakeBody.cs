@@ -22,13 +22,14 @@ public class SnakeBody : MonoBehaviour
         placeInBody = partNum;
     }
     
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("HeadTip") && placeInBody > 5)
-        {
-            Debug.Log("Snake collided with itself!");
-            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
-            parent.ResetAfterCollision(placeInBody);
-        }
-    }
+//    private void OnTriggerEnter2D(Collider2D other)
+//    {
+//        if (other.CompareTag("HeadTip") && placeInBody > 5)
+//        {
+//            Debug.Log("Snake collided with itself!");
+////            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
+//            Snake parent = other.GetComponentInParent<Snake>();
+//            parent.ResetAfterCollision(placeInBody);
+//        }
+//    }
 }
