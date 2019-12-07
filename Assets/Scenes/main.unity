@@ -643,6 +643,9 @@ MonoBehaviour:
   bonusSpawner: {fileID: 709239022}
   dim: {fileID: 52356016}
   pauseOverlay: {fileID: 585547738}
+  shakeMagnitude: 0.05
+  shakeDuration: 0.5
+  camera: {fileID: 1875555122}
 --- !u!4 &864704953
 Transform:
   m_ObjectHideFlags: 0
@@ -1072,7 +1075,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

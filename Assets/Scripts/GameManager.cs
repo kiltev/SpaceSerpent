@@ -15,10 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject dim;
     [SerializeField] private GameObject pauseOverlay;
 
-    private Quaternion snakeAngleOnPause;
 
     private Vector2 snakeVelocityOnPause;
-//    private bool isInputEnabled = true;
 
     private Paddle rightPaddle, leftPaddle;
 
@@ -33,6 +31,34 @@ public class GameManager : MonoBehaviour
     Color greenEnd = new Color32(0, 255, 0, 200);
 
     private float duration = 0.8f;
+
+    private Vector3 cameraInitialPos;
+    [SerializeField] private float shakeMagnitude = 0.05f;
+    [SerializeField] private float shakeDuration = 0.5f;
+    [SerializeField] private Camera camera;
+
+    public void Shake()
+    {
+        cameraInitialPos = camera.transform.position;
+        InvokeRepeating("StartCameraShaking", 0f, 0.005f);
+        Invoke("StopCameraShaking", shakeDuration);
+    }
+
+    void StartCameraShaking()
+    {
+        float cameraShakingOffsetX = Random.value * shakeMagnitude * 2 - shakeMagnitude;
+        float cameraShakingOffsetY = Random.value * shakeMagnitude * 2 - shakeMagnitude;
+        Vector3 cameraIntermediatePosition = camera.transform.position;
+        cameraIntermediatePosition.x += cameraShakingOffsetX;
+        cameraIntermediatePosition.y += cameraShakingOffsetY;
+        camera.transform.position = cameraIntermediatePosition;
+    }
+
+    void StopCameraShaking()
+    {
+        CancelInvoke("StartCameraShaking");
+        camera.transform.position = cameraInitialPos;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -171,7 +197,6 @@ public class GameManager : MonoBehaviour
 
     public void PointHandler(bool playerMiss)
     {
-        lastFail = playerMiss;
         if (playerMiss)
         {
             if (rightPlayerState + 1 >= maxState)
