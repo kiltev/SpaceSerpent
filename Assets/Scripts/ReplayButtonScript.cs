@@ -66,8 +66,7 @@ public class ReplayButtonScript : MonoBehaviour
     {
 //        playButton.GetComponent<Animator>().SetTrigger("PressedPlay");
 //        buttonClick.Play();
-       
         Debug.Log("clicked");
-        SceneManager.LoadScene("main");
+        SceneManager.LoadScene("title");
     }
 }
