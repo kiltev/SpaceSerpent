@@ -109,7 +109,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 3.6}
+  m_Size: {x: 2, y: 4.2}
   m_EdgeRadius: 0
 --- !u!50 &9040682755168880915
 Rigidbody2D:
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPaddle: {fileID: 0}
   height: 0
+  speed: 0
   isRight: 0
   delayF: 1.5
   InputEnabled: 1

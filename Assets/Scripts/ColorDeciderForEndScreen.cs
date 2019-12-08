@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ColorDeciderForEndScreen : MonoBehaviour
 {
@@ -8,12 +9,13 @@ public class ColorDeciderForEndScreen : MonoBehaviour
     [SerializeField] private Sprite purpleSprite;
     [SerializeField] private GameObject purpleController;
     [SerializeField] private GameObject orangeController;
-
+    [SerializeField] private GameObject ReplayButton;
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        ReplayButton.SetActive(false);
         purpleController.SetActive(false);
         orangeController.SetActive(false);
         

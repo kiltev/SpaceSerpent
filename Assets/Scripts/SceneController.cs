@@ -14,4 +14,9 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene("endScreen");
     }
+
+    public void Title()
+    {
+        SceneManager.LoadScene("title");
+    }
 }

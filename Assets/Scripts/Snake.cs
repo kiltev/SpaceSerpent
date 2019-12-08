@@ -210,8 +210,9 @@ public class Snake : MonoBehaviour
             ResetSnake(leftPlayer);
         }
         
-        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > 7)
+        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > 5)
         {
+            SoundsManager.Instance.PlaySnakeHitSelfSound();
             Debug.Log("Snake collided with itself!");
             //            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
 //            Snake parent = other.GetComponentInParent<Snake>();
