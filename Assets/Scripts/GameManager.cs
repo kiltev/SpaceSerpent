@@ -277,6 +277,7 @@ public class GameManager : MonoBehaviour
 
         Paddle toDestroy;
         toDestroy = isRight ? rightPaddle : leftPaddle;
+        toDestroy.playerPaddle.velocity = Vector2.zero; // no movement befor destruction
         SoundsManager.Instance.PlayUsedLastLifeSound();
         for (int i = 0; i < toDestroy.transform.childCount; i++)
         {
