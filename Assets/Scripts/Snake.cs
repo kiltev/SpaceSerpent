@@ -49,7 +49,7 @@ public class Snake : MonoBehaviour
         _initialSpeed = 500f;
         _bodySize = 0;
         bodyParts.Add(transform);
-        _moveDelay = Time.time + 1f;
+        _moveDelay = Time.time + 3f;
     }
 
     // Update is called once per frame
@@ -69,6 +69,7 @@ public class Snake : MonoBehaviour
                 }
                 _snakeHead.velocity = _direction * Time.deltaTime * speed;
                 _reset = false;
+                _moveDelay = Time.time + 1f;
             }
         }
         else
