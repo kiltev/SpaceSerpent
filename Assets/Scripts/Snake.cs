@@ -79,6 +79,10 @@ public class Snake : MonoBehaviour
             IncreaseSpeed();
             MoveSnake();
             CheckSnakePushedOut();
+//        var snakeAngle = transform.eulerAngles.z;
+//        Debug.Log("Snake angle update: " + snakeAngle);
+//        var degree = Mathf.Repeat(Mathf.Atan2(_snakeHead.velocity.x, _snakeHead.velocity.y) * Mathf.Rad2Deg, 360f);
+//        Debug.Log("Degree: " + degree);
         }
     }
 
@@ -109,19 +113,19 @@ public class Snake : MonoBehaviour
             }
         }
 
-        if (coll.collider.CompareTag("RWall"))
-        {
-            SoundsManager.Instance.PlayLoseRoundSound();
-            gameManager.PointHandler(rightPlayer);
-            ResetSnake(rightPlayer);
-        }
-
-        if (coll.collider.CompareTag("LWall"))
-        {
-            SoundsManager.Instance.PlayLoseRoundSound();
-            gameManager.PointHandler(leftPlayer);
-            ResetSnake(leftPlayer);
-        }
+//        if (coll.collider.CompareTag("RWall"))
+//        {
+//            SoundsManager.Instance.PlayLoseRoundSound();
+//            gameManager.PointHandler(rightPlayer);
+//            ResetSnake(rightPlayer);
+//        }
+//
+//        if (coll.collider.CompareTag("LWall"))
+//        {
+//            SoundsManager.Instance.PlayLoseRoundSound();
+//            gameManager.PointHandler(leftPlayer);
+//            ResetSnake(leftPlayer);
+//        }
 
         if (coll.collider.CompareTag("TBWall"))
         {
@@ -191,6 +195,20 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("RWall"))
+        {
+            SoundsManager.Instance.PlayLoseRoundSound();
+            gameManager.PointHandler(rightPlayer);
+            ResetSnake(rightPlayer);
+        }
+
+        if (other.CompareTag("LWall"))
+        {
+            SoundsManager.Instance.PlayLoseRoundSound();
+            gameManager.PointHandler(leftPlayer);
+            ResetSnake(leftPlayer);
+        }
+        
         if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > 7)
         {
             Debug.Log("Snake collided with itself!");
