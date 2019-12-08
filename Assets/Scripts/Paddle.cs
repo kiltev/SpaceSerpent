@@ -158,4 +158,5 @@ public class Paddle : MonoBehaviour
             delay += delayF * Time.deltaTime;
         }
     }
+
 }

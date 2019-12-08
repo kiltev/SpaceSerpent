@@ -19,6 +19,8 @@ TagManager:
   - PauseScreen
   - HeadTip
   - SoundManager
+  - Orange
+  - Purple
   layers:
   - Default
   - TransparentFX

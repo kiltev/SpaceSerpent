@@ -176,8 +176,8 @@ public class GameManager : MonoBehaviour
         
         PaddleBrick addedTop = Instantiate(Resources.Load<PaddleBrick>(sideTop));
         PaddleBrick addedBottom = Instantiate(Resources.Load<PaddleBrick>(sideBottom));
-        topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y *2  + state * addedTop.transform.localScale.y));
-        bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y *2 + state * addedBottom.transform.localScale.y));
+        topPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y + (paddle.transform.localScale.y *2  + state * addedTop.transform.localScale.y /2));
+        bottomPos = new Vector2(paddle.transform.position.x, paddle.transform.position.y - (paddle.transform.localScale.y *2 + state * addedBottom.transform.localScale.y/2));
         addedTop.Init(playerSide, paddle);
         addedBottom.Init(playerSide, paddle);
         addedTop.transform.position = topPos;
@@ -194,6 +194,8 @@ public class GameManager : MonoBehaviour
         }
         addedBottom.transform.SetParent(paddle.transform);
         addedTop.transform.SetParent(paddle.transform);
+        addedBottom.GetComponent<Animator>().SetTrigger("born");
+        addedTop.GetComponent<Animator>().SetTrigger("born");
     }
 
     public void PointHandler(bool playerMiss)
@@ -243,15 +245,15 @@ public class GameManager : MonoBehaviour
         KillSnake();
         StopBonusProduction();
         //Destroy the paddle that lost:
-
-        Paddle toDestroy;
+        StaticWinner.rightPlayerLost = isRight;
+            Paddle toDestroy;
         toDestroy = isRight ? rightPaddle : leftPaddle;
-        SoundsManager.Instance.PlayUsedLastLifeSound();
         for (int i = 0; i < toDestroy.transform.childCount; i++)
         {
             Destroy(toDestroy.transform.GetChild(i).gameObject);
         }
         toDestroy.GetComponent<Animator>().SetTrigger("isDead");
+        SoundsManager.Instance.PlayUsedLastLifeSound();
         Destroy(toDestroy);
     }
 
