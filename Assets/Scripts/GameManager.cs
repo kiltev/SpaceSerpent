@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public static Vector2 BottomLeft;
     public static Vector2 TopRight;
     private bool isPaused = false;
+    private List<Orange> orange;
+    private List<Purple> purple;
 
     [SerializeField] private GameObject dim;
     [SerializeField] private GameObject pauseOverlay;
@@ -77,6 +79,23 @@ public class GameManager : MonoBehaviour
         leftPaddle.Init(isLeftPaddle);
         leftPaddle.gameObject.tag = "LPaddle";
         rightPaddle.gameObject.tag = "RPaddle";
+
+        float size = 0.67f;
+        orange = new List<Orange>();
+        for (int i = 0; i < 4; i++)
+        {
+            Orange orange1 = Instantiate(Resources.Load<Orange>("PaddleBrickOrange"));
+            orange1.transform.position += size * i * (new Vector3(-1, 1, 0));
+            orange.Add(orange1);
+        }
+        
+        purple = new List<Purple>();
+        for (int i = 0; i < 4; i++)
+        {
+            Purple purple1 = Instantiate(Resources.Load<Purple>("PaddleBrickPurple"));
+            purple1.transform.position += size * i * (new Vector3(1, 1, 0));
+            purple.Add(purple1);
+        }
     }
 
     // Update is called once per frame
@@ -204,6 +223,12 @@ public class GameManager : MonoBehaviour
         leftPaddle.transform.position = new Vector2(GameManager.BottomLeft.x, 0) + (Vector2.right * transform.localScale.x);
         if (playerMiss)
         {
+            Purple purple1;
+            purple1 = purple[purple.Count - 1];
+            purple.RemoveAt(purple.Count - 1);
+            purple1.gameObject.SetActive(false);
+            Destroy(purple1.gameObject);
+            
             if (rightPlayerState + 1 >= maxState)
             {
                 EndGame(true);
@@ -218,6 +243,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Orange orange1;
+            orange1 = orange[orange.Count - 1];
+            orange.RemoveAt(orange.Count - 1);
+            orange1.gameObject.SetActive(false);
+            Destroy(orange1.gameObject);
+            
             if (leftPlayerState + 1 >= maxState)
             {
                 EndGame(false);
