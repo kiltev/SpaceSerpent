@@ -199,6 +199,9 @@ public class GameManager : MonoBehaviour
     public void PointHandler(bool playerMiss)
     {
         Shake();
+        // Returns the paddles to original position.
+        rightPaddle.transform.position = new Vector2(GameManager.TopRight.x, 0) + (Vector2.left * transform.localScale.x);
+        leftPaddle.transform.position = new Vector2(GameManager.BottomLeft.x, 0) + (Vector2.right * transform.localScale.x);
         if (playerMiss)
         {
             if (rightPlayerState + 1 >= maxState)

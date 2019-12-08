@@ -1,5 +1,22 @@
 ﻿using UnityEngine;
 
+//public class SomeClass : MonoBehaviour {
+//    private static SomeClass _instance;
+//
+//    public static SomeClass Instance { get { return _instance; } }
+//
+//
+//    private void Awake()
+//    {
+//        if (_instance != null && _instance != this)
+//        {
+//            Destroy(this.gameObject);
+//        } else {
+//            _instance = this;
+//        }
+//    }
+//}
+
 /// <summary>
 /// Inherit from this base class to create a singleton.
 /// e.g. public class MyClassName : Singleton<MyClassName> {}
@@ -7,8 +24,8 @@
 public class SoundsManager : MonoBehaviour
 {
     // Check to see if we're about to be destroyed.
-    private static bool m_ShuttingDown = false;
-    private static object m_Lock = new object();
+//    private static bool m_ShuttingDown = false;
+//    private static object m_Lock = new object();
     private static SoundsManager m_Instance;
     // Audio players components.
     public AudioSource EffectsSource1;
@@ -24,49 +41,68 @@ public class SoundsManager : MonoBehaviour
     {
         get
         {
-            if (m_ShuttingDown)
-            {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(SoundsManager) +
-                                 "' already destroyed. Returning null.");
-                return null;
-            }
-
-            lock (m_Lock)
-            {
-                if (m_Instance == null)
-                {
-                    // Search for existing instance.
-                    m_Instance = (SoundsManager)FindObjectOfType(typeof(SoundsManager));
-
-                    // Create new instance if one doesn't already exist.
-                    if (m_Instance == null)
-                    {
-                        // Need to create a new GameObject to attach the singleton to.
-                        var singletonObject = new GameObject();
-                        m_Instance = singletonObject.AddComponent<SoundsManager>();
-                        singletonObject.name = typeof(SoundsManager).ToString() + " (Singleton)";
-
-                        // Make instance persistent.
-                        DontDestroyOnLoad(singletonObject);
-                    }
-                }
-
-                return m_Instance;
-            }
+            return m_Instance;
+        }
+//        get
+//        {
+//            if (m_ShuttingDown)
+//            {
+//                Debug.LogWarning("[Singleton] Instance '" + typeof(SoundsManager) +
+//                                 "' already destroyed. Returning null.");
+//                return null;
+//            }
+//
+//            lock (m_Lock)
+//            {
+////                if (m_Instance == null)
+//                if (m_Instance is null)
+////                if (EqualityComparer<UnityEngine.Object>.Default.Equals(m_Instance, null))
+//                {
+//                    // Search for existing instance.
+//                    m_Instance = (SoundsManager)FindObjectOfType(typeof(SoundsManager));
+//
+//                    // Create new instance if one doesn't already exist.
+////                    if (m_Instance == null)
+//                    if (m_Instance is null)
+//                    {
+//                        // Need to create a new GameObject to attach the singleton to.
+//                        var singletonObject = new GameObject();
+//                        m_Instance = singletonObject.AddComponent<SoundsManager>();
+//                        singletonObject.name = typeof(SoundsManager).ToString() + " (Singleton)";
+//
+//                        // Make instance persistent.
+//                        DontDestroyOnLoad(singletonObject);
+//                    }
+//                }
+//
+//                return m_Instance;
+//            }
+//        }
+    }
+    
+    private void Awake()
+    {
+        if (m_Instance != null && m_Instance != this)
+        {
+            Destroy(this.gameObject);
+        } 
+        else 
+        {
+            m_Instance = this;
         }
     }
 
 
-    private void OnApplicationQuit()
-    {
-        m_ShuttingDown = true;
-    }
-
-
-    private void OnDestroy()
-    {
-        m_ShuttingDown = true;
-    }
+//    private void OnApplicationQuit()
+//    {
+//        m_ShuttingDown = true;
+//    }
+//
+//
+//    private void OnDestroy()
+//    {
+//        m_ShuttingDown = true;
+//    }
 
     private void Play1(AudioClip clip)
     {

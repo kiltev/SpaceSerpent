@@ -117,13 +117,13 @@ public class Paddle : MonoBehaviour
 				}
             }
 
-            if (transform.position.y < GameManager.BottomLeft.y + (height / 2f) + 0.2f && move < 0f)
+            if (transform.position.y < GameManager.BottomLeft.y + (height / 2f) + 0.45f && move < 0f)
             {
                 move = 0;
 				speed = 50f;
             }
 
-            if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.2f && move > 0f)
+            if (transform.position.y > GameManager.TopRight.y - (height / 2f) - 0.45f && move > 0f)
             {
                 move = 0;
 				speed = 50f;
