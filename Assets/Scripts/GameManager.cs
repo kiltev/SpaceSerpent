@@ -286,6 +286,7 @@ public class GameManager : MonoBehaviour
             Destroy(toDestroy.transform.GetChild(i).gameObject);
         }
         toDestroy.GetComponent<Animator>().SetTrigger("isDead");
+        SoundsManager.Instance.PlayLoseRoundSound();
         SoundsManager.Instance.PlayUsedLastLifeSound();
         Destroy(toDestroy);
     }

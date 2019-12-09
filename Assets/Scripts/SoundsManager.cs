@@ -175,7 +175,7 @@ public class SoundsManager : MonoBehaviour
 
     public void PlayUsedLastLifeSound()
     {
-        Play1(Resources.Load<AudioClip>("LostAllLife"));
+        Play2(Resources.Load<AudioClip>("LostAllLife"));
     }
 
     public void PlayEatSound()
