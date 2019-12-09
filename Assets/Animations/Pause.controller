@@ -1,5 +1,9 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: endPause
+    m_EventTreshold: 0
 --- !u!1102 &-1856646235613277724
 AnimatorState:
   serializedVersion: 5
@@ -37,7 +41,7 @@ AnimatorController:
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: endPause
-    m_Type: 9
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
