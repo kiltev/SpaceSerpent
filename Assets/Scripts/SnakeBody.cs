@@ -17,13 +17,10 @@ public class SnakeBody : MonoBehaviour
         if (other.CompareTag("HeadTip") && placeInBody > 7 && !isTriggered)
         {
             Snake parent = other.GetComponentInParent<Snake>();
-            if (!(parent.transform.position.x <= GameManager.BottomLeft.x || parent.transform.position.x >= GameManager.TopRight.x))
-            {
-                isTriggered = true;
-                Debug.Log("Snake collided with itself!");
-                SoundsManager.Instance.PlaySnakeHitSelfSound();
-                parent.ResetAfterCollision(placeInBody);
-            }
+            isTriggered = true;
+            Debug.Log("Snake collided with itself!");
+            SoundsManager.Instance.PlaySnakeHitSelfSound();
+            parent.ResetAfterCollision(placeInBody);
         }
     }
 }
