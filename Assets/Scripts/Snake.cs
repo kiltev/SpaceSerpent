@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Snake : MonoBehaviour
 {
+    [SerializeField] private int firstBodyPartToCollideWithI = 7;
     private int _bodySize;
     private Transform _cur;
     private Vector2 _direction;
@@ -210,7 +211,7 @@ public class Snake : MonoBehaviour
             ResetSnake(leftPlayer);
         }
         
-        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > 5)
+        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > firstBodyPartToCollideWithI)
         {
             SoundsManager.Instance.PlaySnakeHitSelfSound();
             Debug.Log("Snake collided with itself!");

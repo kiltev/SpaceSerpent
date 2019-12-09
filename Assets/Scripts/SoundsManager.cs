@@ -170,7 +170,7 @@ public class SoundsManager : MonoBehaviour
 
     public void PlaySnakeHitSelfSound()
     {
-        Play1(Resources.Load<AudioClip>("SnakeHitSelf"));
+        Play3(Resources.Load<AudioClip>("SnakeHitSelf"));
     }
 
     public void PlayUsedLastLifeSound()
