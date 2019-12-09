@@ -52,13 +52,13 @@ public class Paddle : MonoBehaviour
 			switch (_heightIncNum)
 			{
 				case 1:
-					_acceleration = 1.2f;
+					_acceleration = 1.7f;
 					break;
 				case 2:
-					_acceleration = 1.1f;
+					_acceleration = 1.5f;
 					break;
 				case 3:
-					_acceleration = 1.08f;
+					_acceleration = 1.3f;
 					break;
 				default:
 					Debug.Log("Can't accelerate.");

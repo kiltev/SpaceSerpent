@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
 
     private Vector2 snakeVelocityOnPause;
-
+    private float pauseDuration;
     private Paddle rightPaddle, leftPaddle;
 
     private bool isRightPaddle = true;
@@ -172,6 +172,7 @@ public class GameManager : MonoBehaviour
     }
     public void IncreasePaddle(bool playerSide)
     {
+        Debug.Log("Paddle increase!");
         Paddle paddle;
         string sideTop;
         string sideBottom;
@@ -312,6 +313,7 @@ public class GameManager : MonoBehaviour
 
     private void StopSnake()
     {
+        pauseDuration = snake.increaseSpeedInterval - Time.time;
         snakeVelocityOnPause = snake.GetComponent<Rigidbody2D>().velocity;
         snake.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         foreach (var snakePart in snake.bodyParts)
@@ -322,12 +324,13 @@ public class GameManager : MonoBehaviour
 
     private void StartSnake()
     {
+        pauseDuration = Time.time + pauseDuration;
         foreach (var snakePart in snake.bodyParts)
         {
             snakePart.gameObject.SetActive(true);
         }
         snake.GetComponent<Rigidbody2D>().velocity = snakeVelocityOnPause;
-
+        snake.increaseSpeedInterval = pauseDuration;
     }
 
 

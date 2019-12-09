@@ -9,7 +9,7 @@ public class Snake : MonoBehaviour
     private int _bodySize;
     private Transform _cur;
     private Vector2 _direction;
-    private float _increaseSpeedInterval;
+    public float increaseSpeedInterval;
     private float _initialSpeed;
     private Transform _prev;
     private float _radius;
@@ -42,7 +42,7 @@ public class Snake : MonoBehaviour
     private void Start()
     {
         _reset = true;
-        _increaseSpeedInterval = Time.time + 3f;
+        increaseSpeedInterval = Time.time + 3f;
         _snakeHead = GetComponent<Rigidbody2D>();
         _direction = RandomDirection((int)Direction.Any).normalized;
         _radius = transform.localScale.x / 2;
@@ -173,12 +173,12 @@ public class Snake : MonoBehaviour
 
     private void IncreaseSpeed()
     {
-        if (Time.time > _increaseSpeedInterval)
+        if (Time.time > increaseSpeedInterval)
         {
             speed += 50f;
             var normVelocity = _snakeHead.velocity.normalized;
             _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
-            _increaseSpeedInterval += 2f;
+            increaseSpeedInterval += 2f;
         }
     }
 
@@ -211,14 +211,14 @@ public class Snake : MonoBehaviour
             ResetSnake(leftPlayer);
         }
         
-        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > firstBodyPartToCollideWithI)
-        {
-            SoundsManager.Instance.PlaySnakeHitSelfSound();
-            Debug.Log("Snake collided with itself!");
-            //            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
-//            Snake parent = other.GetComponentInParent<Snake>();
-            ResetAfterCollision(other.GetComponent<SnakeBody>().placeInBody);
-        }
+//        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > firstBodyPartToCollideWithI)
+//        {
+//            SoundsManager.Instance.PlaySnakeHitSelfSound();
+//            Debug.Log("Snake collided with itself!");
+//            //            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
+////            Snake parent = other.GetComponentInParent<Snake>();
+//            ResetAfterCollision(other.GetComponent<SnakeBody>().placeInBody);
+//        }
         if (other.CompareTag("Bonus"))
         {
             Debug.Log("You Hit The Bonus!");
