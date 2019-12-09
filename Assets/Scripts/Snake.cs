@@ -81,10 +81,6 @@ public class Snake : MonoBehaviour
             IncreaseSpeed();
             MoveSnake();
             CheckSnakePushedOut();
-//        var snakeAngle = transform.eulerAngles.z;
-//        Debug.Log("Snake angle update: " + snakeAngle);
-//        var degree = Mathf.Repeat(Mathf.Atan2(_snakeHead.velocity.x, _snakeHead.velocity.y) * Mathf.Rad2Deg, 360f);
-//        Debug.Log("Degree: " + degree);
         }
     }
 
@@ -96,13 +92,10 @@ public class Snake : MonoBehaviour
             SoundsManager.Instance.PlayRandomPaddleHitSound();
             var initialSpeed = _snakeHead.velocity.magnitude;
             var paddleVelocity = coll.collider.attachedRigidbody.velocity;
-//            Debug.Log("speed: " + initialSpeed);
             Vector2 vel;
             vel.x = _snakeHead.velocity.x;
             vel.y = _snakeHead.velocity.y + paddleVelocity.y / 5;
-//            Debug.Log("After impact (x, y): " + vel.x + ", " + vel.y);
             _snakeHead.velocity = PerpSnake(paddleVelocity, _snakeHead.velocity, vel) * Time.deltaTime * speed;
-//            _snakeHead.velocity = vel.normalized * Time.deltaTime * speed;
             if (coll.collider.tag == "RPaddle")
             {
                 rightPaddle = 1;
@@ -114,20 +107,6 @@ public class Snake : MonoBehaviour
                 lastTarget = leftPaddle;
             }
         }
-
-//        if (coll.collider.CompareTag("RWall"))
-//        {
-//            SoundsManager.Instance.PlayLoseRoundSound();
-//            gameManager.PointHandler(rightPlayer);
-//            ResetSnake(rightPlayer);
-//        }
-//
-//        if (coll.collider.CompareTag("LWall"))
-//        {
-//            SoundsManager.Instance.PlayLoseRoundSound();
-//            gameManager.PointHandler(leftPlayer);
-//            ResetSnake(leftPlayer);
-//        }
 
         if (coll.collider.CompareTag("TBWall"))
         {
@@ -143,7 +122,7 @@ public class Snake : MonoBehaviour
         _moveDelay = Time.time + 1f;
         speed = _initialSpeed;
 //        Debug.Log("BodtParts count Reset: " + bodyParts.Count);
-        _snakeHead.velocity = Vector2.zero;
+//        _snakeHead.velocity = Vector2.zero;
         if (lastFail)
         {
             _direction = RandomDirection((int) Direction.Left).normalized;
@@ -197,28 +176,6 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-//        if (other.CompareTag("RWall"))
-//        {
-//            SoundsManager.Instance.PlayLoseRoundSound();
-//            gameManager.PointHandler(rightPlayer);
-//            ResetSnake(rightPlayer);
-//        }
-//
-//        if (other.CompareTag("LWall"))
-//        {
-//            SoundsManager.Instance.PlayLoseRoundSound();
-//            gameManager.PointHandler(leftPlayer);
-//            ResetSnake(leftPlayer);
-//        }
-        
-//        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > firstBodyPartToCollideWithI)
-//        {
-//            SoundsManager.Instance.PlaySnakeHitSelfSound();
-//            Debug.Log("Snake collided with itself!");
-//            //            Snake parent = other.transform.parent.transform.gameObject.GetComponent(typeof(Snake)) as Snake;
-////            Snake parent = other.GetComponentInParent<Snake>();
-//            ResetAfterCollision(other.GetComponent<SnakeBody>().placeInBody);
-//        }
         if (other.CompareTag("Bonus"))
         {
             Debug.Log("You Hit The Bonus!");
@@ -233,7 +190,6 @@ public class Snake : MonoBehaviour
     public IEnumerator animateSnake() //Animation Coroutine
     {
         float delay = animationDelayBetweenParts * Time.deltaTime;
-//        this.GetComponent<Animator>().SetTrigger("ate");
         currentBodyParts = new List<Transform>(bodyParts);
         foreach (var bodyPart in currentBodyParts)
         {
@@ -321,16 +277,11 @@ public class Snake : MonoBehaviour
     // Keeps the return angle 20 degrees off the original velocity vector.
     private Vector2 PerpSnake(Vector2 paddleVel, Vector2 preImpactVel, Vector2 afterImpactVel)
     {
-//        Debug.Log("After impact (x, y): " + afterImpactVel.x + ", " + afterImpactVel.y);
         var returnAngle = VectorToDegree(afterImpactVel);
-//        Debug.Log("Return angle: " + returnAngle);
         Vector2 velocity = LimitReturnAngle(afterImpactVel, returnAngle);
         returnAngle = VectorToDegree(velocity);
-//        Debug.Log("Return angle: " + returnAngle);
         var snakeAngle = 360f - transform.eulerAngles.z;
-//        Debug.Log("Snake angle: " + snakeAngle);
         var angleDiff = snakeAngle - returnAngle;
-//        Debug.Log("AngleDiff: " + angleDiff);
         if (angleDiff > 160f && angleDiff <= 200f)
         {
             if (paddleVel.y > 0f) // trying to move the snake up
@@ -436,17 +387,17 @@ public class Snake : MonoBehaviour
 
     public void ResetAfterCollision(int cutOff)
     {
-        SnakeBody.isTriggered = false;
+        //SnakeBody.isTriggered = false;
         Transform bp;
         for (var i = bodyParts.Count - 1; i >= cutOff; i--)
         {
-//            Debug.Log("Cutoff and index and Count " + cutOff + ", " + i + ", " + bodyParts.Count);
             bp = bodyParts[i];
             bodyParts.RemoveAt(i);
             _bodySize -= 1;
             bp.gameObject.SetActive(false);
             Destroy(bp.gameObject);
         }
+		SnakeBody.isTriggered = false;
 
         if (lastTarget == 1) // Right paddle
         {

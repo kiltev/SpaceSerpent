@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 /// <summary>
 /// Inherit from this base class to create a singleton.
 /// e.g. public class MyClassName : Singleton<MyClassName> {}
@@ -8,8 +7,7 @@
 public class SoundsManager : MonoBehaviour
 {
     // Check to see if we're about to be destroyed.
-//    private static bool m_ShuttingDown = false;
-//    private static object m_Lock = new object();
+
     private static SoundsManager m_Instance;
     // Audio players components.
     public AudioSource EffectsSource1;
@@ -40,8 +38,6 @@ public class SoundsManager : MonoBehaviour
             m_Instance = this;
         }
     }
-
-
 
     private void Play1(AudioClip clip)
     {
