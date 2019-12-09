@@ -9,5 +9,6 @@ public class UnpauseScriptLinker : MonoBehaviour
     public void Unpause()
     {
         gameManager.GetComponent<GameManager>().Unpause();
+        this.GetComponent<Animator>().SetBool("endPause", false);
     }
 }

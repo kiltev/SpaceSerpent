@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         {
             if (isPaused)
             {  
-                pauseOverlay.GetComponent<Animator>().SetTrigger("endPause");
+                pauseOverlay.GetComponent<Animator>().SetBool("endPause", true);
                 isPaused = false;
 
                 //                Unpause();
@@ -318,7 +318,10 @@ public class GameManager : MonoBehaviour
     private void StopSnake()
     {
         pauseDuration = snake.increaseSpeedInterval - Time.time;
-        snakeVelocityOnPause = snake.GetComponent<Rigidbody2D>().velocity;
+        if (snake.GetComponent<Rigidbody2D>().velocity != Vector2.zero)
+        {
+            snakeVelocityOnPause = snake.GetComponent<Rigidbody2D>().velocity;
+        }
         snake.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         foreach (var snakePart in snake.bodyParts)
         {
