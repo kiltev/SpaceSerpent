@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
-    private int padding;
+    private int paddingX;
+    private int paddingY;
     private float timeToLeave, currentTime;
+
     public float selfDistructMinTime = 0, selfDistructMaxTime = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         currentTime = 0;
-        timeToLeave = Random.Range(selfDistructMinTime, selfDistructMaxTime) *Time.deltaTime;
+        timeToLeave = Random.Range(selfDistructMinTime, selfDistructMaxTime) * Time.deltaTime;
     }
 
     // Update is called once per frame
@@ -26,9 +29,11 @@ public class Bonus : MonoBehaviour
 
     public void Init()
     {
-        padding = 1;
-        transform.position = new Vector2(Random.Range(GameManager.BottomLeft.x + padding, GameManager.TopRight.x - padding),
-            Random.Range(GameManager.BottomLeft.y + padding, GameManager.TopRight.y - padding));
+        paddingY = 1;
+        paddingX = 2;
+        transform.position = new Vector2(
+            Random.Range(GameManager.BottomLeft.x + paddingX, GameManager.TopRight.x - paddingX),
+            Random.Range(GameManager.BottomLeft.y + paddingY, GameManager.TopRight.y - paddingY));
     }
 
     void SelfRemover()
