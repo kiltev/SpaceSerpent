@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
             purple1.transform.position += size * i * (new Vector3(1, 1, 0));
             purple.Add(purple1);
         }
+
     }
 
     // Update is called once per frame
@@ -105,8 +106,10 @@ public class GameManager : MonoBehaviour
         {
             if (isPaused)
             {  
+                pauseOverlay.GetComponent<Animator>().SetTrigger("endPause");
                 isPaused = false;
-                Unpause();
+
+                //                Unpause();
             }
             else
             {
@@ -351,7 +354,7 @@ public class GameManager : MonoBehaviour
         pauseOverlay.SetActive(true);
     }
 
-    void Unpause()
+    public void Unpause()
     {
         StartBonusProduction();
         EnableInput();
