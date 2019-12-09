@@ -175,7 +175,7 @@ public class Snake : MonoBehaviour
     {
         if (Time.time > increaseSpeedInterval)
         {
-            speed += 50f;
+            speed += 30f;
             var normVelocity = _snakeHead.velocity.normalized;
             _snakeHead.velocity = normVelocity * Time.deltaTime * speed;
             increaseSpeedInterval += 2f;
@@ -436,6 +436,7 @@ public class Snake : MonoBehaviour
 
     public void ResetAfterCollision(int cutOff)
     {
+        SnakeBody.isTriggered = false;
         Transform bp;
         for (var i = bodyParts.Count - 1; i >= cutOff; i--)
         {
