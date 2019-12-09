@@ -39,6 +39,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.2f;
     [SerializeField] private Camera camera;
 
+
+    void Awake()
+    {
+        QualitySettings.antiAliasing = 0;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+    }
     public void Shake()
     {
         cameraInitialPos = camera.transform.position;
