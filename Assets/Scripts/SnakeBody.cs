@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class SnakeBody : MonoBehaviour
 {
+    public static bool isTriggered = false;
     public int placeInBody;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Init(int partNum)
     {
         placeInBody = partNum;
@@ -24,11 +14,16 @@ public class SnakeBody : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("HeadTip") && placeInBody > 7)
+        if (other.CompareTag("HeadTip") && placeInBody > 7 && !isTriggered)
         {
-            Debug.Log("Snake collided with itself!");
             Snake parent = other.GetComponentInParent<Snake>();
-            parent.ResetAfterCollision(placeInBody);
+            if (!(parent.transform.position.x <= GameManager.BottomLeft.x || parent.transform.position.x >= GameManager.TopRight.x))
+            {
+                isTriggered = true;
+                Debug.Log("Snake collided with itself!");
+                SoundsManager.Instance.PlaySnakeHitSelfSound();
+                parent.ResetAfterCollision(placeInBody);
+            }
         }
     }
 }
