@@ -197,19 +197,19 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("RWall"))
-        {
-            SoundsManager.Instance.PlayLoseRoundSound();
-            gameManager.PointHandler(rightPlayer);
-            ResetSnake(rightPlayer);
-        }
-
-        if (other.CompareTag("LWall"))
-        {
-            SoundsManager.Instance.PlayLoseRoundSound();
-            gameManager.PointHandler(leftPlayer);
-            ResetSnake(leftPlayer);
-        }
+//        if (other.CompareTag("RWall"))
+//        {
+//            SoundsManager.Instance.PlayLoseRoundSound();
+//            gameManager.PointHandler(rightPlayer);
+//            ResetSnake(rightPlayer);
+//        }
+//
+//        if (other.CompareTag("LWall"))
+//        {
+//            SoundsManager.Instance.PlayLoseRoundSound();
+//            gameManager.PointHandler(leftPlayer);
+//            ResetSnake(leftPlayer);
+//        }
         
 //        if (other.CompareTag("SnakeBody") &&  other.GetComponent<SnakeBody>().placeInBody > firstBodyPartToCollideWithI)
 //        {
