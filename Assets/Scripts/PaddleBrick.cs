@@ -23,7 +23,7 @@ public class PaddleBrick : MonoBehaviour
     public void Init(bool isRightPaddle, Paddle parent)
     {
         height = GetComponent<BoxCollider2D>().bounds.size.y;
-        parent.height += height;
+        parent.height += 0.4f * height;
         //parent.speed -= 30f;
 //        if (parent.transform.position.y < GameManager.BottomLeft.y + (parent.height / 2f) + 0.2f)
 //        {
